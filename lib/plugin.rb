@@ -1,5 +1,5 @@
 require 'sketchup'
-require_relative 'vectorize'
+# require_relative 'vectorize'
 
 Vectorize::SketchupMixins.constants.each do |n|
   Sketchup.const_get(n).class_eval do
