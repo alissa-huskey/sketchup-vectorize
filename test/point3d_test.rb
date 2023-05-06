@@ -1,6 +1,6 @@
 require_relative 'test_helper'
 
-class TestVectorize < Minitest::Test
+class TestPoint3d < Minitest::Test
   def test_point
     assert Geom::Point3d.new(0, 0, 0)
   end

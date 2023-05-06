@@ -19,6 +19,8 @@ module Vectorize
     end
   end
 
+  MirroredFaces = Struct.new("MirroredFaces", :faces, :distance)
+
   # An object that may be a part or may contain parts
   module Assembly
     extend CollectionReader
@@ -55,22 +57,17 @@ module Vectorize
     # Return a list of mirrored faces
     def mirrors
       pairs = Matrix[faces.permutation(2).map(&:sort).uniq]
-      pairs.select { |a, b| a.mirror?(b) }
-
-      # TODO: include the distance between faces
-      #
       # mirrors = pairs.select { |a, b| a.mirror?(b) }
-      # mirrors.map do |faces|
-      #   a, b = faces
-      #   distance = a.points.first.distance_to_plane(b.plane)
-      #   [a, distance.round(Vectorize::PRECISION)]
-      # end
-    end
 
-    # filter out entities that should be ignored
-    def entities
-      all = super
-      all.collect { |e| e.visible? && e.layer.visible? && !e.deleted? }
+      pairs.filter_map do |a, b|
+        if a.mirror?(b)
+          distance = a.points.first.distance_to_plane(b.plane)
+          MirroredFaces.new(
+            [a, b],
+            distance.round(Vectorize::PRECISION),
+          )
+        end
+      end
     end
 
     # Categorize all Sketchup::Entity objects
@@ -83,7 +80,7 @@ module Vectorize
       @groups = []
       @meta = []
 
-      entities.each do |e|
+      entities.usable.each do |e|
         case e
         when Sketchup::Face
           @facets << e
@@ -113,6 +110,14 @@ module Vectorize
       include Vectorize::Assembly
       def entities
         definition.entities
+      end
+    end
+
+    module Entities
+      # filter out entities that should be ignored
+      def usable
+        all = entities || []
+        all.select { |e| e.visible? && e.layer.visible? && !e.deleted? }
       end
     end
 

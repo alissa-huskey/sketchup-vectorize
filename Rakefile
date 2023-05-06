@@ -3,7 +3,7 @@ require "minitest/test_task"
 
 desc "Initialize and update the development environment"
 task :bootstrap do
-  if not system("which bundle")
+  unless system("which bundle")
     title "Installing bundler"
     sh "gem install bundler"
   end
@@ -14,7 +14,7 @@ end
 
 Minitest::TestTask.create(:test) do |t|
   t.warning = false
+  t.test_prelude = ['require "pry"']
 end
-
 
 task :default => :test
