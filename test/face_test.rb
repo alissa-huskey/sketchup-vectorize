@@ -11,7 +11,7 @@ class TestFace < Minitest::Test
         :a => [[0.0, 0.0, 0.0], [0.0, 0.0, 4.0], [0.0, 4.0, 0.0], [0.0, 4.0, 4.0]],
         :b => [[0.0, 4.0, 0.0], [0.0, 4.0, 4.0], [4.0, 4.0, 0.0], [4.0, 4.0, 4.0]],
         :expected => false,
-        :message => "Connected faces of a cube",
+        :desc => "Connected faces of a cube",
       ),
       Case.new(
         :a => [
@@ -26,8 +26,8 @@ class TestFace < Minitest::Test
           [100, 200, 50],
           [0, 200, 50],
         ],
-        :expected => true,
-        :message => "Opposite faces of a rectangular cuboid",
+        :expected => :z,
+        :desc => "Opposite faces of a rectangular cuboid",
       ),
       Case.new(
         :a => [
@@ -42,8 +42,8 @@ class TestFace < Minitest::Test
           [0.0, 3.421259842519685, 0.26377952755905515],
           [0.0, 0.0, 0.26377952755905515]
         ],
-        :expected => true,
-        :message => "Opposite faces of a real rectangular cuboid",
+        :expected => :z,
+        :desc => "Opposite faces of a real rectangular cuboid",
       ),
       Case.new(
         :a => [
@@ -98,19 +98,18 @@ class TestFace < Minitest::Test
           [4.19519, 2.6495, 0.26378],
           [4.25935, 2.0972, 0.26378],
         ],
-        :expected => true,
-        :message => "Opposite faces of a real sphere",
+        :expected => :z,
+        :desc => "Opposite faces of a real sphere",
       ),
     ]
 
     cases.each do |params|
       a = Sketchup::Face.new(points: params.a)
       b = Sketchup::Face.new(points: params.b)
+      axis = a.mirror?(b)
 
-      assert(
-        a.mirror?(b) == params.expected,
-        "#{params.message} should #{params.expected ? '' : 'not '}mirror one another."
-      )
+      message = (params.expected ? "be mirrored on #{params.expected}" : "not be mirrored")
+      assert_equal params.expected, axis, "#{params.desc} should #{message}"
     end
   end
 end

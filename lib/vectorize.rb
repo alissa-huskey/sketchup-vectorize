@@ -19,7 +19,23 @@ module Vectorize
     end
   end
 
-  MirroredFaces = Struct.new("MirroredFaces", :faces, :distance)
+  class MirroredFaces
+    attr_accessor :a, :b, :axis
+
+    def initialize(a = nil, b = nil, axis = nil)
+      @a = a
+      @b = b
+
+      @axis = axis
+      @axis = a.mirror?(b) if !axis && (a && b)
+    end
+
+    def distance
+      return unless @a && @b
+      distance = @a.points.first.distance_to_plane(@b.plane)
+      distance.round(Vectorize::PRECISION)
+    end
+  end
 
   # An object that may be a part or may contain parts
   module Assembly
@@ -57,16 +73,10 @@ module Vectorize
     # Return a list of mirrored faces
     def mirrors
       pairs = Matrix[faces.permutation(2).map(&:sort).uniq]
-      # mirrors = pairs.select { |a, b| a.mirror?(b) }
 
       pairs.filter_map do |a, b|
-        if a.mirror?(b)
-          distance = a.points.first.distance_to_plane(b.plane)
-          MirroredFaces.new(
-            [a, b],
-            distance.round(Vectorize::PRECISION),
-          )
-        end
+        axis = a.mirror?(b)
+        MirroredFaces.new(a, b, axis) if axis
       end
     end
 
@@ -142,7 +152,8 @@ module Vectorize
         vertices.map(&:position).sort
       end
 
-      # Return true if this face is a mirror of another face
+      # If these faces are mirrors, return the axis they are mirrored on,
+      # otherwise return false
       #
       # This happens when all Point3d objects mirror their respective Point3d
       # objects in the other face on the same axis
@@ -152,13 +163,19 @@ module Vectorize
         return false if points.length != other.points.length
         return false if dimensions.sort != other.dimensions.sort
 
-        # for each of the two faces points determine if they are mirrored, and
-        # if so, on what axis
+        # compare each two respective points and return a filtered array of the
+        # axis each pair mirrors on
+        # return false right away if any are not mirrored
         respective = other.points.sort
-        axises = points.sort.zip(respective).map { |a, b| a.mirror?(b) }
+        axises = points.sort.zip(respective).filter_map do |a, b|
+          axis = a.mirror?(b)
+          return false unless axis
+          axis
+        end
 
-        # return true if all points are mirrors on the same axis
-        axises && axises.all? { |x| x.is_a? Symbol } && axises.uniq.length == 1
+        # if there is one and only one, return that axis
+        # otherwise return false
+        (axises.uniq!.length == 1) && axises.first
       end
     end
 
@@ -201,6 +218,7 @@ module Vectorize
         end
 
         # if we've gotten this far, the points are not mirrors
+        # NOTE: be sure to return false explicitly here, or [:x, :y, :z] will
         false
       end
     end
