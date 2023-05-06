@@ -19,7 +19,6 @@ end
 
 class Geom::Point3d
   include Mock
-  include Vectorize::GeomMixins::Point3d
 
   def initialize(*xyz)
     xyz = xyz.first if (xyz.length == 1) && xyz.first.is_a?(Array)
@@ -39,7 +38,6 @@ end
 
 class Sketchup::Entities
   include Mock
-  include Vectorize::SketchupMixins::Entities
 
   attr_accessor :entities
   alias to_a entities
@@ -53,12 +51,10 @@ end
 
 class Sketchup::Entity
   include Mock
-  include Vectorize::SketchupMixins::Entity
 end
 
 class Sketchup::Face
   include Mock
-  include Vectorize::SketchupMixins::Face
 
   attr_accessor :points, :layer
 
@@ -85,7 +81,6 @@ end
 
 class Sketchup::ComponentInstance
   include Mock
-  include Vectorize::SketchupMixins::ComponentInstance
 
   def definition
     OpenStruct.new(entities: Sketchup::Entities.new)
@@ -98,7 +93,6 @@ end
 
 class Sketchup::Group
   include Mock
-  include Vectorize::SketchupMixins::Group
 
   attr_accessor :entities
 
