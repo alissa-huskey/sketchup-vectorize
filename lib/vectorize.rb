@@ -1,13 +1,57 @@
 require 'matrix'
 
 module Vectorize
-  # A mixin for Assembly attributes that are collections requiring that analyze
-  # be called to populate them
-  #
-  # This should almost certainly be replaced with Sketchup observers, but I
-  # haven't dug into that yet.
-  module CollectionReader
-    def collection_reader(*attrs)
+  # A class to represent two mirrored faces
+  class MirroredFaces
+    include Enumerable
+
+    attr_accessor :a, :b
+    attr_writer :axis
+    attr_reader :saved_material
+
+    def initialize(a = nil, b = nil, axis = nil)
+      @a = a
+      @b = b
+      @axis = axis
+      @saved_material = [nil, nil]
+    end
+
+    def axis
+      @axis ||= a.mirror?(b)
+    end
+
+    def each(&block)
+      faces.each(&block)
+    end
+
+    def faces
+      [a, b]
+    end
+
+    # Return the distance between faces
+    def distance
+      return unless a && b
+      distance = a.points.first.distance_to_plane(b.plane)
+      distance.round(Vectorize::PRECISION)
+    end
+
+    # Set both faces to the same material and save the existing material
+    def colorize(material)
+      @saved_material = faces.map(&:material)
+      faces.each { |f| f.material = material}
+    end
+
+    # Revert both faces to the saved material
+    def revert
+      faces.zip(saved_material) { |face, material| face.material = material }
+    end
+  end
+
+  # An object that may be a part or may contain parts
+  module Assembly
+    # attr_reader-like method that defines any missing instance variables by
+    # calling analyze first
+    def self.collection_reader(*attrs)
       attrs.each do |attr|
         attr_reader attr
 
@@ -17,29 +61,6 @@ module Vectorize
         end
       end
     end
-  end
-
-  class MirroredFaces
-    attr_accessor :a, :b, :axis
-
-    def initialize(a = nil, b = nil, axis = nil)
-      @a = a
-      @b = b
-
-      @axis = axis
-      @axis = a.mirror?(b) if !axis && (a && b)
-    end
-
-    def distance
-      return unless @a && @b
-      distance = @a.points.first.distance_to_plane(@b.plane)
-      distance.round(Vectorize::PRECISION)
-    end
-  end
-
-  # An object that may be a part or may contain parts
-  module Assembly
-    extend CollectionReader
 
     collection_reader :faces, :edges, :groups
 
@@ -52,7 +73,7 @@ module Vectorize
     # @return [Array <Sketchup::Edge, Sketchup::Face]
     collection_reader :facets
 
-    # @return [Array <Sketchup::Element>] Non-graphical Elements (any not included above)
+    # @return [Array <Sketchup::Element>] Non-graphical elements (any not included above)
     collection_reader :meta
 
     def initialize(*args)
@@ -125,6 +146,10 @@ module Vectorize
 
     module Entities
       # filter out entities that should be ignored
+      def entities
+        self
+      end
+
       def usable
         all = entities || []
         all.select { |e| e.visible? && e.layer.visible? && !e.deleted? }
@@ -158,24 +183,27 @@ module Vectorize
       # This happens when all Point3d objects mirror their respective Point3d
       # objects in the other face on the same axis
       def mirror?(other)
-        # optomization gatekeepers -- the faces can't be mirrors if they are
-        # different sizes or have a different number of points
+        # optimization gatekeepers -- the faces can't be mirrors if they are
+        # different sizes or have a different number of points or are on the
+        # same plane
         return false if points.length != other.points.length
         return false if dimensions.sort != other.dimensions.sort
+        return false if plane == other.plane
 
         # compare each two respective points and return a filtered array of the
-        # axis each pair mirrors on
+        # axis and distance between each pair mirrored points
         # return false right away if any are not mirrored
         respective = other.points.sort
         axises = points.sort.zip(respective).filter_map do |a, b|
           axis = a.mirror?(b)
           return false unless axis
-          axis
+          distance = a.send(axis) - b.send(axis)
+          [axis, distance.round(Vectorize::PRECISION)]
         end
 
-        # if there is one and only one, return that axis
+        # if all axises and distances are the same return the axis
         # otherwise return false
-        (axises.uniq!.length == 1) && axises.first
+        (axises.uniq.length == 1) && axises.first.first
       end
     end
 

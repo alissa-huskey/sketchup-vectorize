@@ -20,3 +20,11 @@ alias point pry
 alias pt pry
 
 Minitest::Reporters.use!
+
+def assert_equal_or_nil(expected, actual, message = nil)
+  if expected.nil?
+    assert_nil(actual, message)
+  else
+    assert_equal(expected, actual, message)
+  end
+end

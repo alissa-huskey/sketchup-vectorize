@@ -29,6 +29,18 @@ class Geom::Point3d
     @xyz
   end
 
+  def x
+    @xyz[0]
+  end
+
+  def y
+    @xyz[1]
+  end
+
+  def z
+    @xyz[2]
+  end
+
   private
 
   def _inspect
@@ -56,7 +68,7 @@ end
 class Sketchup::Face
   include Mock
 
-  attr_accessor :points, :layer
+  attr_accessor :points, :layer, :plane
 
   def initialize(*entities, points: [])
     entities = entities.first if entities.first.is_a?(Array) && entities.size == 1
@@ -64,6 +76,7 @@ class Sketchup::Face
     @points = points.map { |x| x.is_a?(Geom::Point3d) ? x : Geom::Point3d.new(x) }
     @entities = Sketchup::Entities.new(entities)
     @layer = Sketchup::Layer.new
+    @plane = rand
   end
 
   # used by mirror? as a quick way to tell if two faces are not mirrors

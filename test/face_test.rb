@@ -8,6 +8,42 @@ class TestFace < Minitest::Test
   def test_mirror
     cases = [
       Case.new(
+        :a => [
+          [0.0, 0.0, 66.0],
+          [4.0, 0.0, 87.0],
+          [4.0, 4.0, 43.0],
+          [0.0, 4.0, 35.0],
+        ],
+        :b => [
+          [0.0, 0.0, 72.0],
+          [4.0, 0.0, 88.0],
+          [4.0, 4.0, 25.0],
+          [0.0, 4.0, 86.0],
+        ],
+        :expected => false,
+        :desc => "Faces with mirrored points at different distances",
+      ),
+      Case.new(
+        :a => [
+          [0, 2.63386, 0],
+          [1.52066, 1.75591, 0],
+          [1.52066, 3.51181, 0],
+          [3.04132, 2.63386, 0],
+        ],
+        :b => [
+          [0, 0.877953, 0],
+          [1.52066, 0, 0],
+          [1.52066, 1.75591, 0],
+          [3.04132, 0.877953, 0],
+        ],
+        :planes => [
+          [0.0, 0.0, 1.0, 0.0],
+          [0.0, 0.0, 1.0, 0.0],
+        ],
+        :expected => false,
+        :desc => "Faces on the same plane",
+      ),
+      Case.new(
         :a => [[0.0, 0.0, 0.0], [0.0, 0.0, 4.0], [0.0, 4.0, 0.0], [0.0, 4.0, 4.0]],
         :b => [[0.0, 4.0, 0.0], [0.0, 4.0, 4.0], [4.0, 4.0, 0.0], [4.0, 4.0, 4.0]],
         :expected => false,
@@ -106,6 +142,12 @@ class TestFace < Minitest::Test
     cases.each do |params|
       a = Sketchup::Face.new(points: params.a)
       b = Sketchup::Face.new(points: params.b)
+
+      unless params.planes.nil?
+        a.plane = params.planes[0]
+        b.plane = params.planes[1]
+      end
+
       axis = a.mirror?(b)
 
       message = (params.expected ? "be mirrored on #{params.expected}" : "not be mirrored")
