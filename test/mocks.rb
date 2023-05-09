@@ -1,4 +1,5 @@
-require_relative '../lib/vectorize'
+require_relative '../lib/vectorize/geom_mixins'
+require_relative '../lib/vectorize/sketchup_mixins'
 
 require 'sketchup-api-stubs/sketchup'
 

@@ -1,3 +1,4 @@
+require_relative "../lib/vectorize/mirrored_faces"
 require_relative "test_helper"
 
 class TestAssembly < Minitest::Test
