@@ -293,7 +293,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong>(&amp;block)  &#x21d2; self </a>
+      <a href="#each-instance_method" title="#each (instance method)">#<strong>each</strong> {|Sketchup::Face| ... } &#x21d2; self </a>
     
 
     
@@ -308,7 +308,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Iterates over array elements.</p>
+<p>Iterates over the array of faces.</p>
 </div></span>
   
 </li>
@@ -822,14 +822,14 @@
       <pre class="lines">
 
 
-60
 61
 62
 63
-64</pre>
+64
+65</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 60</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 61</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_colorize'>colorize</span><span class='lparen'>(</span><span class='id identifier rubyid_material'>material</span><span class='rparen'>)</span>
   <span class='ivar'>@saved_material</span> <span class='op'>=</span> <span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:material</span><span class='rparen'>)</span>
@@ -885,14 +885,14 @@
       <pre class="lines">
 
 
-49
 50
 51
 52
-53</pre>
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 49</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 50</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_distance'>distance</span>
   <span class='kw'>return</span> <span class='kw'>unless</span> <span class='id identifier rubyid_a'>a</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_b'>b</span>
@@ -907,7 +907,7 @@
       <div class="method_details ">
   <h3 class="signature " id="each-instance_method">
   
-    #<strong>each</strong>(&amp;block)  &#x21d2; <tt>self</tt> 
+    #<strong>each</strong> {|Sketchup::Face| ... } &#x21d2; <tt>self</tt> 
   
 
   
@@ -916,13 +916,31 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Iterates over array elements.</p>
+<p>Iterates over the array of faces.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Sketchup::Face</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>Each of the two faces in turn.</p>
+</div>
+      
+    </li>
+  
+</ul>
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -943,13 +961,13 @@
       <pre class="lines">
 
 
-38
 39
 40
-41</pre>
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 38</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -1004,12 +1022,12 @@
       <pre class="lines">
 
 
-44
 45
-46</pre>
+46
+47</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 44</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 45</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_faces'>faces</span>
   <span class='lbracket'>[</span><span class='id identifier rubyid_a'>a</span><span class='comma'>,</span> <span class='id identifier rubyid_b'>b</span><span class='rbracket'>]</span>
@@ -1058,13 +1076,13 @@
       <pre class="lines">
 
 
-70
 71
 72
-73</pre>
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 70</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/mirrored_faces.rb', line 71</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_revert'>revert</span>
   <span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_zip'>zip</span><span class='lparen'>(</span><span class='id identifier rubyid_saved_material'>saved_material</span><span class='rparen'>)</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_face'>face</span><span class='comma'>,</span> <span class='id identifier rubyid_material'>material</span><span class='op'>|</span> <span class='id identifier rubyid_face'>face</span><span class='period'>.</span><span class='id identifier rubyid_material'>material</span> <span class='op'>=</span> <span class='id identifier rubyid_material'>material</span> <span class='rbrace'>}</span>
@@ -1080,7 +1098,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue May  9 03:05:36 2023 by
+  Generated on Tue May  9 16:09:49 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

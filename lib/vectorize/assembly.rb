@@ -69,9 +69,10 @@ module Vectorize
       super(*args)
     end
 
-    # Return true if this object is a "graphic".
+    # Return true if this object is a graphic, meaning it is made up of only
+    # edges and faces.
     #
-    # Made up of only edges and faces
+    # @return [Boolean] True if object is a graphic.
     def graphic?
       !facets.empty? && children.empty?
     end
@@ -86,6 +87,23 @@ module Vectorize
         axis = a.mirror?(b)
         MirroredFaces.new(a, b, axis) if axis
       end
+    end
+
+    # @return [Array<Sketchup::Element>] A recursive list of all graphic elements
+    def graphics
+      return [self] if graphic?
+
+      graphics = []
+
+      children.each do |child|
+        if child.graphic?
+          graphics << child
+        else
+          graphics += child.graphics
+        end
+      end
+
+      graphics
     end
 
     # Categorize all usable {Sketchup::Entity} objects into their respective
@@ -103,23 +121,38 @@ module Vectorize
       @meta = []
 
       entities.usable.each do |e|
-        case e
-        when Sketchup::Face
+        # Can't use the less silly `case e` and `when Class` form here as it
+        # does not work for Minitest::Mock objects. For example, with a
+        # Sketchup::Group mock:
+        #   e === Sketchup::Group    # false
+        #   e.is_a(Sketchup::Group)  # true
+        #
+
+        case true
+        when e.is_a?(Sketchup::Face)
           @facets << e
           @faces << e
-        when Sketchup::Edge
+        when e.is_a?(Sketchup::Edge)
           @facets << e
           @edges << e
-        when Sketchup::ComponentInstance
+        when e.is_a?(Sketchup::ComponentInstance)
           @components << e
           @children << e
-        when Sketchup::Group
+        when e.is_a?(Sketchup::Group)
           @groups << e
           @children << e
         else
           @meta << e
         end
       end
+
+      nil
+    end
+
+    # @return [Boolean] True if this object is visible and not deleted.
+    #
+    def usable?
+      visible? && layer.visible? && !deleted?
     end
   end
 

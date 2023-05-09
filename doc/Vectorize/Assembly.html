@@ -76,7 +76,7 @@
   
   <dl>
     <dt>Included in:</dt>
-    <dd><span class='object_link'><a href="SketchupMixins/ComponentInstance.html" title="Vectorize::SketchupMixins::ComponentInstance (module)">SketchupMixins::ComponentInstance</a></span>, <span class='object_link'><a href="SketchupMixins/Face.html" title="Vectorize::SketchupMixins::Face (module)">SketchupMixins::Face</a></span>, <span class='object_link'><a href="SketchupMixins/Group.html" title="Vectorize::SketchupMixins::Group (module)">SketchupMixins::Group</a></span>, <span class='object_link'><a href="SketchupMixins/Selection.html" title="Vectorize::SketchupMixins::Selection (module)">SketchupMixins::Selection</a></span></dd>
+    <dd><span class='object_link'><a href="SketchupMixins/ComponentInstance.html" title="Vectorize::SketchupMixins::ComponentInstance (module)">SketchupMixins::ComponentInstance</a></span>, <span class='object_link'><a href="SketchupMixins/Group.html" title="Vectorize::SketchupMixins::Group (module)">SketchupMixins::Group</a></span>, <span class='object_link'><a href="SketchupMixins/Selection.html" title="Vectorize::SketchupMixins::Selection (module)">SketchupMixins::Selection</a></span></dd>
   </dl>
   
 
@@ -379,7 +379,31 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return true if this object is a “graphic”.</p>
+<p>Return true if this object is a graphic, meaning it is made up of only edges and faces.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#graphics-instance_method" title="#graphics (instance method)">#<strong>graphics</strong>  &#x21d2; Array&lt;Sketchup::Element&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A recursive list of all graphic elements.</p>
 </div></span>
   
 </li>
@@ -404,6 +428,30 @@
   
     <span class="summary_desc"><div class='inline'>
 <p>Return a list of mirrored faces.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#usable%3F-instance_method" title="#usable? (instance method)">#<strong>usable?</strong>  &#x21d2; Boolean </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>True if this object is visible and not deleted.</p>
 </div></span>
   
 </li>
@@ -917,24 +965,6 @@
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106
-107
-108
-109
-110
-111
-112
-113
 114
 115
 116
@@ -944,10 +974,36 @@
 120
 121
 122
-123</pre>
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133
+134
+135
+136
+137
+138
+139
+140
+141
+142
+143
+144
+145
+146
+147
+148
+149</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_analyze'>analyze</span>
   <span class='ivar'>@facets</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -959,23 +1015,31 @@
   <span class='ivar'>@meta</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
 
   <span class='id identifier rubyid_entities'>entities</span><span class='period'>.</span><span class='id identifier rubyid_usable'>usable</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
-    <span class='kw'>case</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Face</span>
+    <span class='comment'># Can&#39;t use the less silly `case e` and `when Class` form here as it
+</span>    <span class='comment'># does not work for Minitest::Mock objects. For example, with a
+</span>    <span class='comment'># Sketchup::Group mock:
+</span>    <span class='comment'>#   e === Sketchup::Group    # false
+</span>    <span class='comment'>#   e.is_a(Sketchup::Group)  # true
+</span>    <span class='comment'>#
+</span>    <span class='kw'>case</span> <span class='kw'>true</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Face</span><span class='rparen'>)</span>
       <span class='ivar'>@facets</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@faces</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Edge</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Edge</span><span class='rparen'>)</span>
       <span class='ivar'>@facets</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@edges</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>ComponentInstance</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>ComponentInstance</span><span class='rparen'>)</span>
       <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@children</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Group</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Group</span><span class='rparen'>)</span>
       <span class='ivar'>@groups</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@children</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>else</span>
       <span class='ivar'>@meta</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>end</span>
   <span class='kw'>end</span>
+
+  <span class='kw'>nil</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -994,9 +1058,7 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return true if this object is a “graphic”.</p>
-
-<p>Made up of only edges and faces</p>
+<p>Return true if this object is a graphic, meaning it is made up of only edges and faces.</p>
 
 
   </div>
@@ -1013,6 +1075,11 @@
       
       
       
+        &mdash;
+        <div class='inline'>
+<p>True if object is a graphic.</p>
+</div>
+      
     </li>
   
 </ul>
@@ -1023,15 +1090,98 @@
       <pre class="lines">
 
 
-75
 76
-77</pre>
+77
+78</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 75</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 76</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_graphic?'>graphic?</span>
   <span class='op'>!</span><span class='id identifier rubyid_facets'>facets</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="graphics-instance_method">
+  
+    #<strong>graphics</strong>  &#x21d2; <tt>Array&lt;Sketchup::Element&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns A recursive list of all graphic elements.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Element&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A recursive list of all graphic elements</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 93</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_graphics'>graphics</span>
+  <span class='kw'>return</span> <span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='kw'>if</span> <span class='id identifier rubyid_graphic?'>graphic?</span>
+
+  <span class='id identifier rubyid_graphics'>graphics</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
+
+  <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_child'>child</span><span class='op'>|</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_graphic?'>graphic?</span>
+      <span class='id identifier rubyid_graphics'>graphics</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_child'>child</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_graphics'>graphics</span> <span class='op'>+=</span> <span class='id identifier rubyid_child'>child</span><span class='period'>.</span><span class='id identifier rubyid_graphics'>graphics</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_graphics'>graphics</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1082,17 +1232,17 @@
       <pre class="lines">
 
 
-82
 83
 84
 85
 86
 87
 88
-89</pre>
+89
+90</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 82</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 83</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mirrors'>mirrors</span>
   <span class='id identifier rubyid_pairs'>pairs</span> <span class='op'>=</span> <span class='const'>Matrix</span><span class='lbracket'>[</span><span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_permutation'>permutation</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:sort</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='rbracket'>]</span>
@@ -1107,12 +1257,71 @@
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="usable?-instance_method">
+  
+    #<strong>usable?</strong>  &#x21d2; <tt>Boolean</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns True if this object is visible and not deleted.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>True if this object is visible and not deleted.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+153
+154
+155</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 153</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_usable?'>usable?</span>
+  <span class='id identifier rubyid_visible?'>visible?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_layer'>layer</span><span class='period'>.</span><span class='id identifier rubyid_visible?'>visible?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_deleted?'>deleted?</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Tue May  9 03:05:36 2023 by
+  Generated on Tue May  9 16:09:49 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

@@ -71,11 +71,6 @@
   
   
   
-  <dl>
-      <dt>Includes:</dt>
-      <dd><span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></dd>
-  </dl>
-  
   
 
   
@@ -104,11 +99,6 @@
 
 
 
-
-  <h2>Instance Attribute Summary</h2>
-  
-  <h3 class="inherited">Attributes included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Assembly.html#children-instance_method" title="Vectorize::Assembly#children (method)">#children</a></span>, <span class='object_link'><a href="../Assembly.html#components-instance_method" title="Vectorize::Assembly#components (method)">#components</a></span>, <span class='object_link'><a href="../Assembly.html#edges-instance_method" title="Vectorize::Assembly#edges (method)">#edges</a></span>, <span class='object_link'><a href="../Assembly.html#faces-instance_method" title="Vectorize::Assembly#faces (method)">#faces</a></span>, <span class='object_link'><a href="../Assembly.html#facets-instance_method" title="Vectorize::Assembly#facets (method)">#facets</a></span>, <span class='object_link'><a href="../Assembly.html#groups-instance_method" title="Vectorize::Assembly#groups (method)">#groups</a></span>, <span class='object_link'><a href="../Assembly.html#meta-instance_method" title="Vectorize::Assembly#meta (method)">#meta</a></span></p>
 
 
   
@@ -195,17 +185,6 @@
   
 
 
-  
-  
-  
-  
-  
-  
-  
-  
-  <h3 class="inherited">Methods included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Assembly.html#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span>, <span class='object_link'><a href="../Assembly.html#graphic%3F-instance_method" title="Vectorize::Assembly#graphic? (method)">#graphic?</a></span>, <span class='object_link'><a href="../Assembly.html#mirrors-instance_method" title="Vectorize::Assembly#mirrors (method)">#mirrors</a></span></p>
-
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -255,14 +234,14 @@
       <pre class="lines">
 
 
-13
-14
-15
-16
-17</pre>
+9
+10
+11
+12
+13</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dimensions'>dimensions</span>
   <span class='comment'># this is a flat surface so we know one dimension will be zero
@@ -346,6 +325,10 @@
       <pre class="lines">
 
 
+31
+32
+33
+34
 35
 36
 37
@@ -364,14 +347,10 @@
 50
 51
 52
-53
-54
-55
-56
-57</pre>
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 31</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mirror?'>mirror?</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='comment'># optimization gatekeepers -- the faces can&#39;t be mirrors if they are
@@ -445,12 +424,12 @@
       <pre class="lines">
 
 
-22
-23
-24</pre>
+18
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 22</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 18</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_points'>points</span>
   <span class='id identifier rubyid_vertices'>vertices</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:position</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -465,7 +444,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue May  9 03:05:36 2023 by
+  Generated on Tue May  9 16:09:49 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

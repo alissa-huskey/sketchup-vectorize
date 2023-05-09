@@ -1,12 +1,8 @@
-require_relative '../assembly'
-
 module Vectorize
   module SketchupMixins
     # Namespace for mixins to the {https://ruby.sketchup.com/Sketchup/Face.html Sketchup::Face} class.
     #
     module Face
-      include Vectorize::Assembly
-
       # A list containing the width and height of a face, determined from {#bounds}.
       #
       # @return [Float] The rounded width and height of a face.

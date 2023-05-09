@@ -41,7 +41,6 @@ namespace :doc do
     if @doc_status
       puts "\e[93mWarning\e[0m: Yard server already running."
     else
-      puts "\e[93mWarning\e[0m: Yard server already running."
       YARD::CLI::CommandParser.run("server", "--reload")
     end
   end
@@ -65,9 +64,21 @@ namespace :doc do
     %w[.yardoc doc].each { |dir| FileUtils.rm_r(dir, :force => true) }
   end
 
+  desc "Build docs from scratch."
+  task :rebuild => %i[clean build]
+
   desc "List undocumented code"
   task :todo do
     YARD::CLI::CommandParser.run("stats", "--list-undoc")
+  end
+
+  desc "View docs in browser"
+  task :view => :_get_status do
+    if !@doc_status
+      puts "\e[93mWarning\e[0m: Yard server not running."
+    else
+      sh("open", "--url", "http://localhost:8808")
+    end
   end
 end
 

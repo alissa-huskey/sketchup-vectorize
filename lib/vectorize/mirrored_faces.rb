@@ -32,7 +32,7 @@ module Vectorize
       @axis ||= a.mirror?(b)
     end
 
-    # Iterates over array elements.
+    # Iterates over the array of faces.
     #
     # @yield [Sketchup::Face] Each of the two faces in turn.
     # @return [self]

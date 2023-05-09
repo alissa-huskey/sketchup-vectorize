@@ -18,6 +18,31 @@ module Mock
   end
 end
 
+# Mixin to give sane defaults to visible?, deleted? and layer.visible?
+#
+module MakeUsable
+  def self.included(base)
+    base.class_eval do
+      undef :visible?, :deleted?, :layer
+
+      def visible?
+        true
+      end
+
+      def deleted?
+        false
+      end
+
+      def layer
+        OpenStruct.new(visible?: false)
+      end
+    end
+  end
+end
+
+class Sketchup::DrawingElement
+end
+
 class Geom::Point3d
   include Mock
 
@@ -59,6 +84,11 @@ class Sketchup::Entities
   def initialize(*entities)
     entities = entities.first if entities.first.is_a?(Array) && entities.size == 1
     @entities = entities
+  end
+
+  def each(&block)
+    @entities.each(&block)
+    self
   end
 end
 
@@ -103,6 +133,10 @@ end
 
 class Sketchup::Edge
   include Mock
+end
+
+class Sketchup::Drawingelement
+  include MakeUsable
 end
 
 class Sketchup::Group
