@@ -1,20 +1,82 @@
-require "rake/testtask"
 require "minitest/test_task"
 
 desc "Initialize and update the development environment"
 task :bootstrap do
-  unless system("which bundle")
-    title "Installing bundler"
-    sh "gem install bundler"
+  sh(*%w{which bundle}, :verbose => false) do |ok, res|
+    unless ok
+      puts "Installing bundler"
+      sh %w{gem install bundler}
+    end
   end
 
-  title "Installing gems"
-  sh 'bundle install'
+  puts "Installing gems"
+  sh %w{bundle install}
 end
+
+desc "Install and update gems from Gemfile"
+task :update => :bootstrap
 
 Minitest::TestTask.create(:test) do |t|
   t.warning = false
   t.test_prelude = ['require "pry"']
 end
 
+namespace :doc do
+  require 'yard'
+
+  task :_get_status do
+    sh("pgrep", "-f", "-q", "rake doc", :verbose => false) do |ok, res|
+      @doc_status = ok
+    end
+  end
+
+  desc "Show status of yard daemon"
+  task :status => :_get_status do
+    status = (@doc_status ? "\e[36mrunning\e[0m" : "\e[31mnot running\e[0m")
+    puts "Status: #{status}"
+  end
+
+  desc "Start yard daemon"
+  task :start => :_get_status do
+    if @doc_status
+      puts "\e[93mWarning\e[0m: Yard server already running."
+    else
+      YARD::CLI::CommandParser.run("server", "--reload", "--daemon")
+    end
+  end
+
+  desc "Stop yard daemon"
+  task :stop => :_get_status do
+    if not @doc_status
+      puts "\e[93mWarning\e[0m: No running yard server daemon found."
+    else
+      sh("pkill", "-f", "rake doc", :verbose => false)
+    end
+  end
+
+  desc "List undocumented code"
+  task :todo do
+    YARD::CLI::CommandParser.run("stats", "--list-undoc")
+  end
+end
+
+desc "Alias for doc:start"
+task :doc => "doc:start"
+
+desc "Open an irb session preloaded with this library"
+task :console do
+  require "pry"
+  require "matrix"
+  require 'sketchup-api-stubs/sketchup'
+  require_relative "test/mocks"
+
+  require "bundler/setup"
+  Bundler.require
+
+  Dir["#{__dir__}/lib/**/*.rb"].each { |f| require f }
+
+  Pry.start || exit
+end
+
+desc "Alias for test"
 task :default => :test

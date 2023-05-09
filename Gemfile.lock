@@ -3,9 +3,13 @@ GEM
   specs:
     ansi (1.5.0)
     ast (2.4.2)
+    awesome_print (1.9.2)
     builder (3.2.4)
+    bundler_ext (0.4.2)
+      bundler
     byebug (11.1.3)
     coderay (1.1.3)
+    interception (0.5)
     json (2.6.3)
     method_source (1.0.0)
     minitest (5.18.0)
@@ -14,6 +18,11 @@ GEM
       builder
       minitest (>= 5.0)
       ruby-progressbar
+    msgpack (1.7.0)
+    multi_json (1.15.0)
+    neovim (0.9.0)
+      msgpack (~> 1.1)
+      multi_json (~> 1.0)
     parallel (1.23.0)
     parser (3.2.2.1)
       ast (~> 2.4.1)
@@ -23,6 +32,14 @@ GEM
     pry-byebug (3.10.1)
       byebug (~> 11.0)
       pry (>= 0.13, < 0.15)
+    pry-doc (1.4.0)
+      pry (~> 0.11)
+      yard (~> 0.9.11)
+    pry-rescue (1.5.2)
+      interception (>= 0.5)
+      pry (>= 0.12.0)
+    pry-theme (1.3.1)
+      coderay (~> 1.1)
     rainbow (3.1.1)
     rake (13.0.6)
     regexp_parser (2.8.0)
@@ -44,18 +61,27 @@ GEM
     ruby-progressbar (1.13.0)
     sketchup-api-stubs (0.7.9)
     unicode-display_width (2.4.2)
+    yard (0.9.34)
 
 PLATFORMS
   arm64-darwin-21
 
 DEPENDENCIES
+  awesome_print
+  bundler_ext
   minitest-reporters
+  neovim
   pry
   pry-byebug
+  pry-doc
+  pry-rescue
+  pry-theme
+  rainbow
   rake
   rubocop
   rubocop-sketchup
   sketchup-api-stubs
+  yard
 
 BUNDLED WITH
    2.4.12

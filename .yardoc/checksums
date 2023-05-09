@@ -1,0 +1,6 @@
+lib/vectorize.rb e9398290f3885d478fa2a8a05b2f4f1b0eea19df
+lib/vectorize/version.rb 86c2ee72a513c20ad0611535b6f98f391962015a
+lib/vectorize/assembly.rb c54d39845b3f1dd3b08089bad3a748c8fbb7355d
+lib/vectorize/geom_mixins.rb 4c6bb6477d14886a833cb8a64a46636ec2c7e3c3
+lib/vectorize/mirrored_faces.rb c0d65f0dc6bf0de87a8560cac9fcf8c53ce2cf03
+lib/vectorize/sketchup_mixins.rb 8ec349c5549cb5ac804a80d974318e6716076b1e
