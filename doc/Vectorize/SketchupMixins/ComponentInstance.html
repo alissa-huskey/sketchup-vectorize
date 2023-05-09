@@ -83,16 +83,32 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/vectorize/sketchup_mixins.rb</dd>
+    <dd>lib/vectorize/sketchup_mixins/component_instance.rb</dd>
   </dl>
   
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Namespace for mixins to the Sketchup::ComponentInstance class.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
 </div>
 
 
 
 
 
-
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Assembly.html#children-instance_method" title="Vectorize::Assembly#children (method)">#children</a></span>, <span class='object_link'><a href="../Assembly.html#components-instance_method" title="Vectorize::Assembly#components (method)">#components</a></span>, <span class='object_link'><a href="../Assembly.html#edges-instance_method" title="Vectorize::Assembly#edges (method)">#edges</a></span>, <span class='object_link'><a href="../Assembly.html#faces-instance_method" title="Vectorize::Assembly#faces (method)">#faces</a></span>, <span class='object_link'><a href="../Assembly.html#facets-instance_method" title="Vectorize::Assembly#facets (method)">#facets</a></span>, <span class='object_link'><a href="../Assembly.html#groups-instance_method" title="Vectorize::Assembly#groups (method)">#groups</a></span>, <span class='object_link'><a href="../Assembly.html#meta-instance_method" title="Vectorize::Assembly#meta (method)">#meta</a></span></p>
 
 
   
@@ -106,7 +122,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#entities-instance_method" title="#entities (instance method)">#<strong>entities</strong>  &#x21d2; Object </a>
+      <a href="#entities-instance_method" title="#entities (instance method)">#<strong>entities</strong>  &#x21d2; Sketchup::Entities </a>
     
 
     
@@ -120,7 +136,9 @@
   
 
   
-    <span class="summary_desc"><div class='inline'></div></span>
+    <span class="summary_desc"><div class='inline'>
+<p>From the Sketchup::ComponentDefinition.</p>
+</div></span>
   
 </li>
 
@@ -138,7 +156,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Assembly.html#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span>, <span class='object_link'><a href="../Assembly.html#children-instance_method" title="Vectorize::Assembly#children (method)">#children</a></span>, <span class='object_link'><a href="../Assembly.html#collection_reader-class_method" title="Vectorize::Assembly.collection_reader (method)">collection_reader</a></span>, <span class='object_link'><a href="../Assembly.html#facets-instance_method" title="Vectorize::Assembly#facets (method)">#facets</a></span>, <span class='object_link'><a href="../Assembly.html#graphic%3F-instance_method" title="Vectorize::Assembly#graphic? (method)">#graphic?</a></span>, <span class='object_link'><a href="../Assembly.html#initialize-instance_method" title="Vectorize::Assembly#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="../Assembly.html#meta-instance_method" title="Vectorize::Assembly#meta (method)">#meta</a></span>, <span class='object_link'><a href="../Assembly.html#mirrors-instance_method" title="Vectorize::Assembly#mirrors (method)">#mirrors</a></span>, <span class='object_link'><a href="../Assembly.html#surface%3F-instance_method" title="Vectorize::Assembly#surface? (method)">#surface?</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Assembly.html#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span>, <span class='object_link'><a href="../Assembly.html#graphic%3F-instance_method" title="Vectorize::Assembly#graphic? (method)">#graphic?</a></span>, <span class='object_link'><a href="../Assembly.html#mirrors-instance_method" title="Vectorize::Assembly#mirrors (method)">#mirrors</a></span></p>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -148,24 +166,61 @@
       <div class="method_details first">
   <h3 class="signature first" id="entities-instance_method">
   
-    #<strong>entities</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>entities</strong>  &#x21d2; <tt>Sketchup::Entities</tt> 
   
 
   
 
   
-</h3><table class="source_code">
+</h3><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>For when this method is expected.</p>
+</div>
+  </div>
+
+
+<p>From the Sketchup::ComponentDefinition.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Sketchup::Entities</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of entities.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
   <tr>
     <td>
       <pre class="lines">
 
 
-7
-8
-9</pre>
+14
+15
+16</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/component_instance.rb', line 14</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_entities'>entities</span>
   <span class='id identifier rubyid_definition'>definition</span><span class='period'>.</span><span class='id identifier rubyid_entities'>entities</span>
@@ -180,7 +235,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May  8 19:23:46 2023 by
+  Generated on Tue May  9 03:05:36 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

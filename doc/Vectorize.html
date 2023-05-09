@@ -79,13 +79,24 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/vectorize.rb<span class="defines">,<br />
-  lib/vectorize/version.rb,<br /> lib/vectorize/assembly.rb,<br /> lib/vectorize/geom_mixins.rb,<br /> lib/vectorize/mirrored_faces.rb,<br /> lib/vectorize/sketchup_mixins.rb</span>
+  lib/vectorize/version.rb,<br /> lib/vectorize/assembly.rb,<br /> lib/vectorize/geom_mixins.rb,<br /> lib/vectorize/mirrored_faces.rb,<br /> lib/vectorize/sketchup_mixins.rb,<br /> lib/vectorize/geom_mixins/point3d.rb,<br /> lib/vectorize/sketchup_mixins/face.rb,<br /> lib/vectorize/sketchup_mixins/group.rb,<br /> lib/vectorize/sketchup_mixins/entity.rb,<br /> lib/vectorize/geom_mixins/bounding_box.rb,<br /> lib/vectorize/sketchup_mixins/entities.rb,<br /> lib/vectorize/sketchup_mixins/selection.rb,<br /> lib/vectorize/sketchup_mixins/component_instance.rb</span>
 </dd>
   </dl>
   
 </div>
 
-<h2>Defined Under Namespace</h2>
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Namespace for extension classes and modules.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><h2>Defined Under Namespace</h2>
 <p class="children">
   
     
@@ -107,12 +118,42 @@
     <dl class="constants">
       
         <dt id="PRECISION-constant" class="">PRECISION =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>(Used for [x, y, z] values and distances.)</p>
+</div>
+  </div>
+
+
+<p>Number of digits to round to.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='int'>10</span></pre></dd>
       
         <dt id="VERSION-constant" class="">VERSION =
-          
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>Extension version.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
         </dt>
         <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>0.0.1</span><span class='tstring_end'>&quot;</span></span></pre></dd>
       
@@ -205,12 +246,12 @@
       <pre class="lines">
 
 
-89
-90
-91</pre>
+127
+128
+129</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 89</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 127</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assembly?'>assembly?</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="Vectorize (module)">Vectorize</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Vectorize/Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='kw'>true</span>
@@ -225,7 +266,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May  8 19:23:46 2023 by
+  Generated on Tue May  9 03:05:36 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

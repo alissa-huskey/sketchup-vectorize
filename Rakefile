@@ -2,15 +2,15 @@ require "minitest/test_task"
 
 desc "Initialize and update the development environment"
 task :bootstrap do
-  sh(*%w{which bundle}, :verbose => false) do |ok, res|
+  sh(*%w[which bundle], :verbose => false) do |ok, _|
     unless ok
       puts "Installing bundler"
-      sh %w{gem install bundler}
+      sh %w[gem install bundler]
     end
   end
 
   puts "Installing gems"
-  sh %w{bundle install}
+  sh %w[bundle install]
 end
 
 desc "Install and update gems from Gemfile"
@@ -25,7 +25,7 @@ namespace :doc do
   require 'yard'
 
   task :_get_status do
-    sh("pgrep", "-f", "-q", "rake doc", :verbose => false) do |ok, res|
+    sh("pgrep", "-f", "-q", "rake doc", "yard server", :verbose => false) do |ok, _|
       @doc_status = ok
     end
   end
@@ -41,17 +41,28 @@ namespace :doc do
     if @doc_status
       puts "\e[93mWarning\e[0m: Yard server already running."
     else
-      YARD::CLI::CommandParser.run("server", "--reload", "--daemon")
+      puts "\e[93mWarning\e[0m: Yard server already running."
+      YARD::CLI::CommandParser.run("server", "--reload")
     end
   end
 
   desc "Stop yard daemon"
   task :stop => :_get_status do
-    if not @doc_status
+    if !@doc_status
       puts "\e[93mWarning\e[0m: No running yard server daemon found."
     else
-      sh("pkill", "-f", "rake doc", :verbose => false)
+      sh("pkill", "-f", "rake doc", "yard server", :verbose => false)
     end
+  end
+
+  desc "Generate docs."
+  task :build do
+    YARD::CLI::CommandParser.run("doc")
+  end
+
+  desc "Remove all generated docs."
+  task :clean do
+    %w[.yardoc doc].each { |dir| FileUtils.rm_r(dir, :force => true) }
   end
 
   desc "List undocumented code"

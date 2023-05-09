@@ -83,16 +83,32 @@
   
   <dl>
     <dt>Defined in:</dt>
-    <dd>lib/vectorize/sketchup_mixins.rb</dd>
+    <dd>lib/vectorize/sketchup_mixins/face.rb</dd>
   </dl>
   
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>Namespace for mixins to the <a href="https://ruby.sketchup.com/Sketchup/Face.html" target="_parent" title="Sketchup::Face">Sketchup::Face</a> class.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
 </div>
 
 
 
 
 
-
+  <h2>Instance Attribute Summary</h2>
+  
+  <h3 class="inherited">Attributes included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="../Assembly.html#children-instance_method" title="Vectorize::Assembly#children (method)">#children</a></span>, <span class='object_link'><a href="../Assembly.html#components-instance_method" title="Vectorize::Assembly#components (method)">#components</a></span>, <span class='object_link'><a href="../Assembly.html#edges-instance_method" title="Vectorize::Assembly#edges (method)">#edges</a></span>, <span class='object_link'><a href="../Assembly.html#faces-instance_method" title="Vectorize::Assembly#faces (method)">#faces</a></span>, <span class='object_link'><a href="../Assembly.html#facets-instance_method" title="Vectorize::Assembly#facets (method)">#facets</a></span>, <span class='object_link'><a href="../Assembly.html#groups-instance_method" title="Vectorize::Assembly#groups (method)">#groups</a></span>, <span class='object_link'><a href="../Assembly.html#meta-instance_method" title="Vectorize::Assembly#meta (method)">#meta</a></span></p>
 
 
   
@@ -106,7 +122,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#dimensions-instance_method" title="#dimensions (instance method)">#<strong>dimensions</strong>  &#x21d2; Object </a>
+      <a href="#dimensions-instance_method" title="#dimensions (instance method)">#<strong>dimensions</strong>  &#x21d2; Float </a>
     
 
     
@@ -121,7 +137,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return the rounded width and height of a face.</p>
+<p>A list containing the width and height of a face, determined from #bounds.</p>
 </div></span>
   
 </li>
@@ -130,7 +146,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#mirror%3F-instance_method" title="#mirror? (instance method)">#<strong>mirror?</strong>(other)  &#x21d2; Boolean </a>
+      <a href="#mirror%3F-instance_method" title="#mirror? (instance method)">#<strong>mirror?</strong>(other)  &#x21d2; Symbol, Boolean </a>
     
 
     
@@ -145,7 +161,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>If these faces are mirrors, return the axis they are mirrored on, otherwise return false.</p>
+<p>If these faces are mirrors return the axis they are mirrored on, otherwise return ‘false`.</p>
 </div></span>
   
 </li>
@@ -154,7 +170,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#points-instance_method" title="#points (instance method)">#<strong>points</strong>  &#x21d2; Object </a>
+      <a href="#points-instance_method" title="#points (instance method)">#<strong>points</strong>  &#x21d2; Array&lt;GeomMixins::Point3d&gt; </a>
     
 
     
@@ -169,7 +185,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Return a sorted list of Sketchup::Point3D objects.</p>
+<p>Return a list of all verticies positions sorted by their respective ‘[x, y, z]` values.</p>
 </div></span>
   
 </li>
@@ -188,7 +204,7 @@
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Assembly.html#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span>, <span class='object_link'><a href="../Assembly.html#children-instance_method" title="Vectorize::Assembly#children (method)">#children</a></span>, <span class='object_link'><a href="../Assembly.html#collection_reader-class_method" title="Vectorize::Assembly.collection_reader (method)">collection_reader</a></span>, <span class='object_link'><a href="../Assembly.html#facets-instance_method" title="Vectorize::Assembly#facets (method)">#facets</a></span>, <span class='object_link'><a href="../Assembly.html#graphic%3F-instance_method" title="Vectorize::Assembly#graphic? (method)">#graphic?</a></span>, <span class='object_link'><a href="../Assembly.html#initialize-instance_method" title="Vectorize::Assembly#initialize (method)">#initialize</a></span>, <span class='object_link'><a href="../Assembly.html#meta-instance_method" title="Vectorize::Assembly#meta (method)">#meta</a></span>, <span class='object_link'><a href="../Assembly.html#mirrors-instance_method" title="Vectorize::Assembly#mirrors (method)">#mirrors</a></span>, <span class='object_link'><a href="../Assembly.html#surface%3F-instance_method" title="Vectorize::Assembly#surface? (method)">#surface?</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Assembly.html#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span>, <span class='object_link'><a href="../Assembly.html#graphic%3F-instance_method" title="Vectorize::Assembly#graphic? (method)">#graphic?</a></span>, <span class='object_link'><a href="../Assembly.html#mirrors-instance_method" title="Vectorize::Assembly#mirrors (method)">#mirrors</a></span></p>
 
 
   <div id="instance_method_details" class="method_details_list">
@@ -198,7 +214,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="dimensions-instance_method">
   
-    #<strong>dimensions</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>dimensions</strong>  &#x21d2; <tt>Float</tt> 
   
 
   
@@ -207,13 +223,31 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return the rounded width and height of a face</p>
+<p>A list containing the width and height of a face, determined from #bounds.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The rounded width and height of a face.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -221,14 +255,14 @@
       <pre class="lines">
 
 
-34
-35
-36
-37
-38</pre>
+13
+14
+15
+16
+17</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_dimensions'>dimensions</span>
   <span class='comment'># this is a flat surface so we know one dimension will be zero
@@ -243,7 +277,7 @@
       <div class="method_details ">
   <h3 class="signature " id="mirror?-instance_method">
   
-    #<strong>mirror?</strong>(other)  &#x21d2; <tt>Boolean</tt> 
+    #<strong>mirror?</strong>(other)  &#x21d2; <tt>Symbol</tt>, <tt>Boolean</tt> 
   
 
   
@@ -252,24 +286,55 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>If these faces are mirrors, return the axis they are mirrored on, otherwise return false</p>
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>Two faces are mirrored when all Geom::Point3d objects mirror their respective Geom::Point3d objects from the other face on the same axis and at the same distance.</p>
+</div>
+  </div>
 
-<p>This happens when all Point3d objects mirror their respective Point3d objects in the other face on the same axis</p>
+
+<p>If these faces are mirrors return the axis they are mirrored on, otherwise return ‘false`.</p>
 
 
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>other</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="Vectorize::SketchupMixins::Face (module)">Face</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The <span class='object_link'><a href="" title="Vectorize::SketchupMixins::Face (module)">Vectorize::SketchupMixins::Face</a></span> object th compare to.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
     <li>
       
       
-        <span class='type'>(<tt>Boolean</tt>)</span>
+        <span class='type'>(<tt>Symbol</tt>, <tt>Boolean</tt>)</span>
       
       
+      
+        &mdash;
+        <div class='inline'>
+<p>The axis that the two faces are mirrored on (‘:x`, `:y`, or `:z`) or `false`.</p>
+</div>
       
     </li>
   
@@ -281,6 +346,21 @@
       <pre class="lines">
 
 
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
 50
 51
 52
@@ -288,25 +368,10 @@
 54
 55
 56
-57
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72</pre>
+57</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins.rb', line 50</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 35</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mirror?'>mirror?</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='comment'># optimization gatekeepers -- the faces can&#39;t be mirrors if they are
@@ -339,7 +404,7 @@
       <div class="method_details ">
   <h3 class="signature " id="points-instance_method">
   
-    #<strong>points</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>points</strong>  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="../GeomMixins/Point3d.html" title="Vectorize::GeomMixins::Point3d (module)">GeomMixins::Point3d</a></span>&gt;</tt> 
   
 
   
@@ -348,13 +413,31 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Return a sorted list of Sketchup::Point3D objects</p>
+<p>Return a list of all verticies positions sorted by their respective ‘[x, y, z]` values.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="../GeomMixins/Point3d.html" title="Vectorize::GeomMixins::Point3d (module)">GeomMixins::Point3d</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A sorted list of <span class='object_link'><a href="../GeomMixins/Point3d.html" title="Vectorize::GeomMixins::Point3d (module)">GeomMixins::Point3d</a></span> objects.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -362,12 +445,12 @@
       <pre class="lines">
 
 
-41
-42
-43</pre>
+22
+23
+24</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins.rb', line 41</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/sketchup_mixins/face.rb', line 22</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_points'>points</span>
   <span class='id identifier rubyid_vertices'>vertices</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:position</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_sort'>sort</span>
@@ -382,7 +465,7 @@
 </div>
 
       <div id="footer">
-  Generated on Mon May  8 19:23:46 2023 by
+  Generated on Tue May  9 03:05:36 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

@@ -88,31 +88,54 @@
   
 </div>
 
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>Used for Sketchup::Group, Sketchup::Component and Sketchup::Selection.</p>
+</div>
+  </div>
+
+  <div class="note notetag">
+    <strong>Note:</strong>
+    <div class='inline'>
+<p>This is technically a mixin for various Sketchup classes, so it may seem like it should be in the SketchupMixins module. However, that is for modules with direct equivalent classes in the Sketchup modulue.</p>
+</div>
+  </div>
 
 
+<p>Mixins for Sketchup::Element objects that may be a part or may contain one or more parts.</p>
 
 
-
-
-
+  </div>
+</div>
+<div class="tags">
   
-    <h2>
-      Class Method Summary
-      <small><a href="#" class="summary_toggle">collapse</a></small>
-    </h2>
 
-    <ul class="summary">
-      
-        <li class="public ">
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small><a href="#" class="summary_toggle">collapse</a></small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
   <span class="summary_signature">
     
-      <a href="#collection_reader-class_method" title="collection_reader (class method)">.<strong>collection_reader</strong>(*attrs)  &#x21d2; Object </a>
+      <a href="#children-instance_method" title="#children (instance method)">#<strong>children</strong>  &#x21d2; Array&lt;Sketchup::Component::Instance, Sketchup::Group&gt; </a>
     
 
     
   </span>
   
   
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
   
   
   
@@ -121,13 +144,191 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>attr_reader-like method that defines any missing instance variables by calling analyze first.</p>
+<p>List of component instances and groups.</p>
 </div></span>
   
 </li>
 
-      
-    </ul>
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#components-instance_method" title="#components (instance method)">#<strong>components</strong>  &#x21d2; Array&lt;Sketchup::ComponentInstance&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of components instances.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#edges-instance_method" title="#edges (instance method)">#<strong>edges</strong>  &#x21d2; Array&lt;Sketchup::Edge&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of edges.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#faces-instance_method" title="#faces (instance method)">#<strong>faces</strong>  &#x21d2; Array&lt;Sketchup::Face&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of faces.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#facets-instance_method" title="#facets (instance method)">#<strong>facets</strong>  &#x21d2; Array&lt;Sketchup::Edge, Sketchup::Face&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of edges and faces.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#groups-instance_method" title="#groups (instance method)">#<strong>groups</strong>  &#x21d2; Array&lt;Sketchup::Group&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of groups.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#meta-instance_method" title="#meta (instance method)">#<strong>meta</strong>  &#x21d2; Array&lt;Sketchup::Element&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>List of non-graphical elements (any not included in other element lists.).</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
   
     <h2>
       Instance Method Summary
@@ -139,7 +340,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#analyze-instance_method" title="#analyze (instance method)">#<strong>analyze</strong>  &#x21d2; Object </a>
+      <a href="#analyze-instance_method" title="#analyze (instance method)">#<strong>analyze</strong>  &#x21d2; nil </a>
     
 
     
@@ -154,55 +355,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Categorize all Sketchup::Entity objects.</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#children-instance_method" title="#children (instance method)">#<strong>children</strong>  &#x21d2; Array &lt;Sketchup::Component::Instance, Sketchup::Group] </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Array &lt;Sketchup::Component::Instance, Sketchup::Group].</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#facets-instance_method" title="#facets (instance method)">#<strong>facets</strong>  &#x21d2; Array &lt;Sketchup::Edge, Sketchup::Face] </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Array &lt;Sketchup::Edge, Sketchup::Face].</p>
+<p>Categorize all usable Sketchup::Entity objects into their respective element lists.</p>
 </div></span>
   
 </li>
@@ -226,7 +379,7 @@
 
   
     <span class="summary_desc"><div class='inline'>
-<p>Made up of only edges and faces.</p>
+<p>Return true if this object is a “graphic”.</p>
 </div></span>
   
 </li>
@@ -235,53 +388,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#initialize-instance_method" title="#initialize (instance method)">#<strong>initialize</strong>(*args)  &#x21d2; Object </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'></div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#meta-instance_method" title="#meta (instance method)">#<strong>meta</strong>  &#x21d2; Array &lt;Sketchup::Element&gt; </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>Non-graphical elements (any not included above).</p>
-</div></span>
-  
-</li>
-
-      
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#mirrors-instance_method" title="#mirrors (instance method)">#<strong>mirrors</strong>  &#x21d2; Object </a>
+      <a href="#mirrors-instance_method" title="#mirrors (instance method)">#<strong>mirrors</strong>  &#x21d2; Array&lt;Sketchup::Face&gt; </a>
     
 
     
@@ -302,43 +409,19 @@
 </li>
 
       
-        <li class="public ">
-  <span class="summary_signature">
-    
-      <a href="#surface%3F-instance_method" title="#surface? (instance method)">#<strong>surface?</strong>  &#x21d2; Boolean </a>
-    
-
-    
-  </span>
-  
-  
-  
-  
-  
-  
-  
-
-  
-    <span class="summary_desc"><div class='inline'>
-<p>faces are on the same plane or there’s only one.</p>
-</div></span>
-  
-</li>
-
-      
     </ul>
   
 
 
-
-  <div id="class_method_details" class="method_details_list">
-    <h2>Class Method Details</h2>
-
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
     
+      
+      <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="collection_reader-class_method">
+  <h3 class="signature first" id="children-instance_method">
   
-    .<strong>collection_reader</strong>(*attrs)  &#x21d2; <tt>Object</tt> 
+    #<strong>children</strong>  &#x21d2; <tt>Array&lt;Sketchup::Component::Instance, Sketchup::Group&gt;</tt>  <span class="extras">(readonly)</span>
   
 
   
@@ -347,13 +430,38 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>attr_reader-like method that defines any missing instance variables by calling analyze first</p>
+<p>Returns List of component instances and groups.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Component::Instance, Sketchup::Group&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of component instances and groups.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -361,36 +469,403 @@
       <pre class="lines">
 
 
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16</pre>
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 7</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 54</span>
 
-<span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_collection_reader'>collection_reader</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_attrs'>attrs</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_attrs'>attrs</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_attr'>attr</span><span class='op'>|</span>
-    <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='id identifier rubyid_attr'>attr</span>
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:children</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="components-instance_method">
+  
+    #<strong>components</strong>  &#x21d2; <tt>Array&lt;Sketchup::ComponentInstance&gt;</tt>  <span class="extras">(readonly)</span>
+  
 
-    <span class='id identifier rubyid_define_method'>define_method</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr'>attr</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_analyze'>analyze</span> <span class='kw'>unless</span> <span class='id identifier rubyid_instance_variable_defined?'>instance_variable_defined?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr'>attr</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-      <span class='id identifier rubyid_instance_variable_get'>instance_variable_get</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>@</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_attr'>attr</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span></pre>
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of components instances.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::ComponentInstance&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of components instances.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+49</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 49</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:components</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="edges-instance_method">
+  
+    #<strong>edges</strong>  &#x21d2; <tt>Array&lt;Sketchup::Edge&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of edges.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Edge&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of edges.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 39</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:edges</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="faces-instance_method">
+  
+    #<strong>faces</strong>  &#x21d2; <tt>Array&lt;Sketchup::Face&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of faces.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Face&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of faces.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 34</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:faces</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="facets-instance_method">
+  
+    #<strong>facets</strong>  &#x21d2; <tt>Array&lt;Sketchup::Edge, Sketchup::Face&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of edges and faces.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Edge, Sketchup::Face&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of edges and faces.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 59</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:facets</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="groups-instance_method">
+  
+    #<strong>groups</strong>  &#x21d2; <tt>Array&lt;Sketchup::Group&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of groups.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Group&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of groups.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 44</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:groups</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="meta-instance_method">
+  
+    #<strong>meta</strong>  &#x21d2; <tt>Array&lt;Sketchup::Element&gt;</tt>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns List of non-graphical elements (any not included in other element lists.).</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Element&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>List of non-graphical elements (any not included in other element lists.).</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="#analyze-instance_method" title="Vectorize::Assembly#analyze (method)">#analyze</a></span></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+64</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 64</span>
+
+<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:meta</span></pre>
     </td>
   </tr>
 </table>
 </div>
     
   </div>
+
 
   <div id="instance_method_details" class="method_details_list">
     <h2>Instance Method Details</h2>
@@ -399,7 +874,7 @@
       <div class="method_details first">
   <h3 class="signature first" id="analyze-instance_method">
   
-    #<strong>analyze</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>analyze</strong>  &#x21d2; <tt>nil</tt> 
   
 
   
@@ -408,13 +883,33 @@
 </h3><div class="docstring">
   <div class="discussion">
     
-<p>Categorize all Sketchup::Entity objects</p>
+<p>Categorize all usable Sketchup::Entity objects into their respective element lists.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>nil</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><span class='object_link'><a href="SketchupMixins/Entities.html#usable-instance_method" title="Vectorize::SketchupMixins::Entities#usable (method)">SketchupMixins::Entities#usable</a></span></li>
+    
+  </ul>
 
 </div><table class="source_code">
   <tr>
@@ -422,37 +917,37 @@
       <pre class="lines">
 
 
-58
-59
-60
-61
-62
-63
-64
-65
-66
-67
-68
-69
-70
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
-83
-84
-85</pre>
+96
+97
+98
+99
+100
+101
+102
+103
+104
+105
+106
+107
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 96</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_analyze'>analyze</span>
   <span class='ivar'>@facets</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -488,116 +983,6 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="children-instance_method">
-  
-    #<strong>children</strong>  &#x21d2; <tt>Array &lt;Sketchup::Component::Instance, Sketchup::Group]</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns Array &lt;Sketchup::Component::Instance, Sketchup::Group].</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array &lt;Sketchup::Component::Instance, Sketchup::Group]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Array &lt;Sketchup::Component::Instance, Sketchup::Group]</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-24</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 24</span>
-
-<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:children</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="facets-instance_method">
-  
-    #<strong>facets</strong>  &#x21d2; <tt>Array &lt;Sketchup::Edge, Sketchup::Face]</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns Array &lt;Sketchup::Edge, Sketchup::Face].</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array &lt;Sketchup::Edge, Sketchup::Face]</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Array &lt;Sketchup::Edge, Sketchup::Face]</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-27</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 27</span>
-
-<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:facets</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="graphic?-instance_method">
   
     #<strong>graphic?</strong>  &#x21d2; <tt>Boolean</tt> 
@@ -609,6 +994,8 @@
 </h3><div class="docstring">
   <div class="discussion">
     
+<p>Return true if this object is a “graphic”.</p>
+
 <p>Made up of only edges and faces</p>
 
 
@@ -636,12 +1023,12 @@
       <pre class="lines">
 
 
-43
-44
-45</pre>
+75
+76
+77</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 75</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_graphic?'>graphic?</span>
   <span class='op'>!</span><span class='id identifier rubyid_facets'>facets</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_children'>children</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
@@ -652,96 +1039,9 @@
 </div>
     
       <div class="method_details ">
-  <h3 class="signature " id="initialize-instance_method">
-  
-    #<strong>initialize</strong>(*args)  &#x21d2; <tt>Object</tt> 
-  
-
-  
-
-  
-</h3><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-32
-33
-34
-35</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 32</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_analyze'>analyze</span>
-  <span class='kw'>super</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
-  <h3 class="signature " id="meta-instance_method">
-  
-    #<strong>meta</strong>  &#x21d2; <tt>Array &lt;Sketchup::Element&gt;</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>Returns Non-graphical elements (any not included above).</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Array &lt;Sketchup::Element&gt;</tt>)</span>
-      
-      
-      
-        &mdash;
-        <div class='inline'>
-<p>Non-graphical elements (any not included above)</p>
-</div>
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-30</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 30</span>
-
-<span class='id identifier rubyid_collection_reader'>collection_reader</span> <span class='symbol'>:meta</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
-      <div class="method_details ">
   <h3 class="signature " id="mirrors-instance_method">
   
-    #<strong>mirrors</strong>  &#x21d2; <tt>Object</tt> 
+    #<strong>mirrors</strong>  &#x21d2; <tt>Array&lt;Sketchup::Face&gt;</tt> 
   
 
   
@@ -757,6 +1057,24 @@
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;Sketchup::Face&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of mirrored faces</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -764,17 +1082,17 @@
       <pre class="lines">
 
 
-48
-49
-50
-51
-52
-53
-54
-55</pre>
+82
+83
+84
+85
+86
+87
+88
+89</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 48</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 82</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_mirrors'>mirrors</span>
   <span class='id identifier rubyid_pairs'>pairs</span> <span class='op'>=</span> <span class='const'>Matrix</span><span class='lbracket'>[</span><span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_permutation'>permutation</span><span class='lparen'>(</span><span class='int'>2</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:sort</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span><span class='rbracket'>]</span>
@@ -789,66 +1107,12 @@
 </table>
 </div>
     
-      <div class="method_details ">
-  <h3 class="signature " id="surface?-instance_method">
-  
-    #<strong>surface?</strong>  &#x21d2; <tt>Boolean</tt> 
-  
-
-  
-
-  
-</h3><div class="docstring">
-  <div class="discussion">
-    
-<p>faces are on the same plane or there’s only one</p>
-
-
-  </div>
-</div>
-<div class="tags">
-  
-<p class="tag_title">Returns:</p>
-<ul class="return">
-  
-    <li>
-      
-      
-        <span class='type'>(<tt>Boolean</tt>)</span>
-      
-      
-      
-    </li>
-  
-</ul>
-
-</div><table class="source_code">
-  <tr>
-    <td>
-      <pre class="lines">
-
-
-38
-39
-40</pre>
-    </td>
-    <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 38</span>
-
-<span class='kw'>def</span> <span class='id identifier rubyid_surface?'>surface?</span>
-  <span class='id identifier rubyid_faces'>faces</span> <span class='op'>&amp;&amp;</span> <span class='lparen'>(</span><span class='lparen'>(</span><span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_size'>size</span> <span class='op'>==</span> <span class='int'>1</span><span class='rparen'>)</span> <span class='op'>||</span> <span class='lparen'>(</span><span class='id identifier rubyid_faces'>faces</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:plane</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_uniq'>uniq</span> <span class='op'>==</span> <span class='int'>1</span><span class='rparen'>)</span><span class='rparen'>)</span>
-<span class='kw'>end</span></pre>
-    </td>
-  </tr>
-</table>
-</div>
-    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Mon May  8 19:23:46 2023 by
+  Generated on Tue May  9 03:05:36 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>
