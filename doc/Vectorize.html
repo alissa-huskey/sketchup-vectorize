@@ -79,7 +79,7 @@
   <dl>
     <dt>Defined in:</dt>
     <dd>lib/vectorize.rb<span class="defines">,<br />
-  lib/vectorize/version.rb,<br /> lib/vectorize/assembly.rb,<br /> lib/vectorize/geom_mixins.rb,<br /> lib/vectorize/mirrored_faces.rb,<br /> lib/vectorize/sketchup_mixins.rb,<br /> lib/vectorize/geom_mixins/point3d.rb,<br /> lib/vectorize/sketchup_mixins/face.rb,<br /> lib/vectorize/sketchup_mixins/group.rb,<br /> lib/vectorize/sketchup_mixins/entity.rb,<br /> lib/vectorize/geom_mixins/bounding_box.rb,<br /> lib/vectorize/sketchup_mixins/entities.rb,<br /> lib/vectorize/sketchup_mixins/selection.rb,<br /> lib/vectorize/sketchup_mixins/component_instance.rb</span>
+  lib/vectorize/part.rb,<br /> lib/vectorize/version.rb,<br /> lib/vectorize/assembly.rb,<br /> lib/vectorize/geom_mixins.rb,<br /> lib/vectorize/mirrored_faces.rb,<br /> lib/vectorize/parts_inventory.rb,<br /> lib/vectorize/sketchup_mixins.rb,<br /> lib/vectorize/geom_mixins/point3d.rb,<br /> lib/vectorize/sketchup_mixins/face.rb,<br /> lib/vectorize/sketchup_mixins/group.rb,<br /> lib/vectorize/sketchup_mixins/entity.rb,<br /> lib/vectorize/geom_mixins/bounding_box.rb,<br /> lib/vectorize/sketchup_mixins/entities.rb,<br /> lib/vectorize/sketchup_mixins/selection.rb,<br /> lib/vectorize/sketchup_mixins/component_instance.rb</span>
 </dd>
   </dl>
   
@@ -104,7 +104,7 @@
     
   
     
-      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Vectorize/MirroredFaces.html" title="Vectorize::MirroredFaces (class)">MirroredFaces</a></span>
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Vectorize/MirroredFaces.html" title="Vectorize::MirroredFaces (class)">MirroredFaces</a></span>, <span class='object_link'><a href="Vectorize/Part.html" title="Vectorize::Part (class)">Part</a></span>, <span class='object_link'><a href="Vectorize/PartsInventory.html" title="Vectorize::PartsInventory (class)">PartsInventory</a></span>
     
   
 </p>
@@ -246,12 +246,12 @@
       <pre class="lines">
 
 
-159
-160
-161</pre>
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 159</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 169</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_assembly?'>assembly?</span><span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='rparen'>)</span>
   <span class='lparen'>(</span><span class='id identifier rubyid_object'>object</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span> <span class='op'>&lt;</span> <span class='const'><span class='object_link'><a href="" title="Vectorize (module)">Vectorize</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Vectorize/Assembly.html" title="Vectorize::Assembly (module)">Assembly</a></span></span><span class='rparen'>)</span> <span class='op'>==</span> <span class='kw'>true</span>
@@ -266,7 +266,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue May  9 16:09:48 2023 by
+  Generated on Tue May  9 19:22:31 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

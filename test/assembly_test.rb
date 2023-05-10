@@ -55,6 +55,22 @@ class TestAssembly < Minitest::Test
     end
   end
 
+  def test_orientations_at_thickness
+    cases = [
+      Case.new(graphic: true),
+    ]
+    cases.each do |params|
+      group = Sketchup::Group.new
+
+      mirrored_face = Stub.new(distance: 0.25)
+      group.stub(:graphic?, params.graphic) do
+        group.stub(:mirrors, [mirrored_face]) do
+          assert_equal [mirrored_face], group.orientations_at_thickness(0.25)
+        end
+      end
+    end
+  end
+
   def test_mirrors
     origin = Geom::Point3d.new([0,   0,   0])
     group = Sketchup::Group.new(

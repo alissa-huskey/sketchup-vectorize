@@ -11,6 +11,9 @@ require_relative '../lib/vectorize'
 # alias to make faux-paramaratized tests look nicer
 Case = OpenStruct
 
+# alias to make arbitrary stubs look nicer
+Stub = OpenStruct
+
 # breakpoint alias
 # instead of: binding.pry
 #        use: b.point

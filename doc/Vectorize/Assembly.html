@@ -436,6 +436,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#orientations_at_thickness-instance_method" title="#orientations_at_thickness (instance method)">#<strong>orientations_at_thickness</strong>(depth)  &#x21d2; Array&lt;Vectorize::MirroredFaces&gt; </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Return a list of MirroredFaces objects where the distance between the two faces is approximately the same as ‘depth`.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#usable%3F-instance_method" title="#usable? (instance method)">#<strong>usable?</strong>  &#x21d2; Boolean </a>
     
 
@@ -965,15 +989,6 @@
       <pre class="lines">
 
 
-114
-115
-116
-117
-118
-119
-120
-121
-122
 123
 124
 125
@@ -1000,10 +1015,20 @@
 146
 147
 148
-149</pre>
+149
+150
+151
+152
+153
+154
+155
+156
+157
+158
+159</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 114</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 123</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_analyze'>analyze</span>
   <span class='ivar'>@facets</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -1021,17 +1046,18 @@
 </span>    <span class='comment'>#   e === Sketchup::Group    # false
 </span>    <span class='comment'>#   e.is_a(Sketchup::Group)  # true
 </span>    <span class='comment'>#
-</span>    <span class='kw'>case</span> <span class='kw'>true</span>
+</span>
+    <span class='kw'>case</span> <span class='kw'>true</span>
     <span class='kw'>when</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Face</span><span class='rparen'>)</span>
       <span class='ivar'>@facets</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@faces</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Edge</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Edge</span><span class='rparen'>)</span>
       <span class='ivar'>@facets</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@edges</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>ComponentInstance</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>ComponentInstance</span><span class='rparen'>)</span>
       <span class='ivar'>@components</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@children</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
-    <span class='kw'>when</span> <span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Group</span><span class='rparen'>)</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Sketchup</span><span class='op'>::</span><span class='const'>Group</span><span class='rparen'>)</span>
       <span class='ivar'>@groups</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
       <span class='ivar'>@children</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_e'>e</span>
     <span class='kw'>else</span>
@@ -1258,6 +1284,85 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="orientations_at_thickness-instance_method">
+  
+    #<strong>orientations_at_thickness</strong>(depth)  &#x21d2; <tt>Array&lt;<span class='object_link'><a href="MirroredFaces.html" title="Vectorize::MirroredFaces (class)">Vectorize::MirroredFaces</a></span>&gt;</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Return a list of MirroredFaces objects where the distance between the two faces is approximately the same as ‘depth`.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>depth</span>
+      
+      
+        <span class='type'>(<tt>Float</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>The desired thickness</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Array&lt;<span class='object_link'><a href="MirroredFaces.html" title="Vectorize::MirroredFaces (class)">Vectorize::MirroredFaces</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>A list of mirrored faces at ‘depth` thickness.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+114
+115
+116</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 114</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_orientations_at_thickness'>orientations_at_thickness</span><span class='lparen'>(</span><span class='id identifier rubyid_depth'>depth</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_mirrors'>mirrors</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_x'>x</span><span class='period'>.</span><span class='id identifier rubyid_distance'>distance</span> <span class='op'>==</span> <span class='id identifier rubyid_depth'>depth</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="usable?-instance_method">
   
     #<strong>usable?</strong>  &#x21d2; <tt>Boolean</tt> 
@@ -1301,12 +1406,12 @@
       <pre class="lines">
 
 
-153
-154
-155</pre>
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 153</span>
+      <pre class="code"><span class="info file"># File 'lib/vectorize/assembly.rb', line 163</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_usable?'>usable?</span>
   <span class='id identifier rubyid_visible?'>visible?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_layer'>layer</span><span class='period'>.</span><span class='id identifier rubyid_visible?'>visible?</span> <span class='op'>&amp;&amp;</span> <span class='op'>!</span><span class='id identifier rubyid_deleted?'>deleted?</span>
@@ -1321,7 +1426,7 @@
 </div>
 
       <div id="footer">
-  Generated on Tue May  9 16:09:49 2023 by
+  Generated on Tue May  9 19:22:31 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.1).
 </div>

@@ -106,6 +106,15 @@ module Vectorize
       graphics
     end
 
+    # Return a list of MirroredFaces objects where the distance between the two
+    # faces is approximately the same as `depth`.
+    #
+    # @param depth [Float] The desired thickness
+    # @return [Array<Vectorize::MirroredFaces>] A list of mirrored faces at `depth` thickness.
+    def orientations_at_thickness(depth)
+      mirrors.select { |x| x.distance == depth }
+    end
+
     # Categorize all usable {Sketchup::Entity} objects into their respective
     # element lists.
     #
