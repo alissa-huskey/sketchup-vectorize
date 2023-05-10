@@ -5,7 +5,7 @@
 require "sketchup.rb"
 
 module Vectorize
-  def self.load
+  def self.initialize_plugin
     %w[
         vectorize
         assembly
@@ -14,21 +14,24 @@ module Vectorize
         mirrored_faces
         part
         parts_inventory
-    ].each { |name| puts("vectorize/#{name}.rb") }
+    ].each { |name| load "vectorize/#{name}.rb" }
   end
 
-  def self.reload!
-    Object.send(:remove_const, :Vectorize)
-    load "vectorize.rb"
+  # Unload the plugin
+  #
+  def self.unload!
+    Object.class_eval { remove_const :Vectorize }
+    $LOADED_FEATURES.reject! { |x| x.include? "vectorize" }
+    true
   end
 
   def self.hello
-    UI.messagebox("oh hai there")
+    UI.messagebox("oh hai.")
   end
 end
 
 unless file_loaded?(File.basename(__FILE__))
-  Vectorize.load
+  Vectorize.initialize_plugin
   Vectorize.hello
   file_loaded(File.basename(__FILE__))
 end

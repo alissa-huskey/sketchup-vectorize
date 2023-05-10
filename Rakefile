@@ -125,10 +125,10 @@ end
 desc "Install files to SketchUp plugin directory"
 task :install do
   # remove old plugin files
-  rm FileList[@plugins_dir/"vectorize.rb"], :verbose => true
-  rm_r FileList[@plugins_dir/"vectorize"], :verbose => true
+  rm FileList[@plugins_dir/"vectorize.rb"], :verbose => false
+  rm_r FileList[@plugins_dir/"vectorize"], :verbose => false
 
   # copy new plugin files
-  cp FileList[@rootdir/"lib"/"vectorize.rb"], @plugins_dir, :verbose => true
-  cp_r FileList[@rootdir/"lib"/"vectorize"], @plugins_dir, :verbose => true
+  cp FileList[@rootdir/"lib"/"vectorize.rb"], @plugins_dir, :verbose => false
+  cp_r FileList[@rootdir/"lib"/"vectorize"], @plugins_dir, :verbose => false
 end
