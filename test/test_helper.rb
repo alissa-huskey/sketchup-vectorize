@@ -1,12 +1,18 @@
-require 'ostruct'
-require 'minitest/autorun'
-require 'minitest/reporters'
+require "ostruct"
+require "minitest/autorun"
+require "minitest/reporters"
 
-require 'pry'
-require 'sketchup-api-stubs/sketchup'
+require "pry"
+require "sketchup-api-stubs/sketchup"
 
-require_relative 'mocks'
-require_relative '../lib/vectorize'
+require_relative "mocks"
+
+# avoid errors from sketchup extension requires
+@testdir = Pathname.new(__FILE__).parent.expand_path
+$LOAD_PATH.unshift (@testdir/"mocks").to_s
+
+require_relative "../lib/vectorize"
+require_relative "../lib/vectorize/vectorize"
 
 # alias to make faux-paramaratized tests look nicer
 Case = OpenStruct

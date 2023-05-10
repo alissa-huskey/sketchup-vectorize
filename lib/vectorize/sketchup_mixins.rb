@@ -1,9 +1,9 @@
-require_relative 'sketchup_mixins/component_instance'
-require_relative 'sketchup_mixins/entities'
-require_relative 'sketchup_mixins/entity'
-require_relative 'sketchup_mixins/face'
-require_relative 'sketchup_mixins/group'
-require_relative 'sketchup_mixins/selection'
+require_relative "sketchup_mixins/component_instance"
+require_relative "sketchup_mixins/entities"
+require_relative "sketchup_mixins/entity"
+require_relative "sketchup_mixins/face"
+require_relative "sketchup_mixins/group"
+require_relative "sketchup_mixins/selection"
 
 module Vectorize
   # Namespace for Sketchup mixin modules.

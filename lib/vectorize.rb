@@ -7,12 +7,25 @@
 # License: The MIT License (MIT)
 # @author Alissa Huskey
 # @see http://github.com/alissa-huskey/sketchup-vectorize Github Repo
-
-# Namespace for extension classes and modules.
 #
-module Vectorize
-end
+# rubocop:disable Style/RedundantFileExtensionInRequire
 
-# Number of digits to round to.
-# @note (Used for [x, y, z] values and distances.)
-Vectorize::PRECISION = 10 unless Vectorize.const_defined?(:PRECISION)
+require "sketchup.rb"
+require "extensions.rb"
+require_relative "vectorize/version"
+
+module Vectorize
+  unless file_loaded?(__FILE__)
+    plugin = SketchupExtension.new(
+      "Vectorize",
+      File.join("vectorize", "plugin.rb")
+    )
+
+    plugin.description = "Turn your 3D model into 2D vector graphics."
+    plugin.version     = Vectorize::VERSION
+    plugin.copyright   = "Alissa Huskey © 2023"
+    plugin.creator     = "Alissa Huskey"
+    Sketchup.register_extension(plugin, true)
+    file_loaded(__FILE__)
+  end
+end

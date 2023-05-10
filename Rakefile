@@ -1,4 +1,9 @@
 require "minitest/test_task"
+require "pathname"
+
+@rootdir = Pathname.new(__FILE__).parent.expand_path
+@home = Pathname.new(Dir.home).expand_path
+@plugins_dir = @home/"Library"/"Application Support"/"Sketchup 2023"/"SketchUp"/"Plugins"
 
 desc "Initialize and update the development environment"
 task :bootstrap do
@@ -19,6 +24,11 @@ task :update => :bootstrap
 Minitest::TestTask.create(:test) do |t|
   t.warning = false
   t.test_prelude = ['require "pry"']
+end
+
+desc "Open the test model in SketchUp."
+task :sketchup do
+  sh("open", "-b", "com.sketchup.SketchUp.2023", "designs/model.skp")
 end
 
 namespace :doc do
@@ -102,3 +112,23 @@ end
 
 desc "Alias for test"
 task :default => :test
+
+desc "Build the vectorize.rbz file"
+task :build do
+  Dir.chdir(@rootdir/"lib") do
+    files = FileList["**/*.rb"]
+    sh("zip", "extension.rbz", *files)
+    FileUtils.mv(@rootdir/"lib"/"extension.rbz", @rootdir/"extension.rbz")
+  end
+end
+
+desc "Install files to SketchUp plugin directory"
+task :install do
+  # remove old plugin files
+  rm FileList[@plugins_dir/"vectorize.rb"], :verbose => true
+  rm_r FileList[@plugins_dir/"vectorize"], :verbose => true
+
+  # copy new plugin files
+  cp FileList[@rootdir/"lib"/"vectorize.rb"], @plugins_dir, :verbose => true
+  cp_r FileList[@rootdir/"lib"/"vectorize"], @plugins_dir, :verbose => true
+end
