@@ -3,14 +3,14 @@ require_relative "test_helper"
 
 class TestPart < Minitest::Test
   def test_part
-    inventory = Stub.new(depth: 0.25)
+    list = Stub.new(depth: 0.25)
     group = Sketchup::Group.new(Sketchup::Face.new)
-    part = Vectorize::Part.new(group, inventory)
+    part = Vectorize::Part.new(group, list)
 
     assert part
     assert_equal 0.25, part.depth
     assert_equal group, part.entity
-    assert_equal inventory, part.parent
+    assert_equal list, part.parent
   end
 
   def test_orientations

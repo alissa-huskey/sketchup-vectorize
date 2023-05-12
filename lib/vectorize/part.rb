@@ -5,7 +5,7 @@ module Vectorize
     # @return [Sketchup::Entity] The sketchup object that makes up this part.
     attr_accessor :entity
 
-    # @return [Vectorize::PartsInventory] The inventory on which this part appears.
+    # @return [Vectorize::PartsList] The list on which this part appears.
     attr_accessor :parent
 
     # @return [Vectorize::MirroredFaces] The mirrored faces object that represents
@@ -13,7 +13,7 @@ module Vectorize
     attr_writer :orientation
 
     # @param entity [Sketchup::Entity] The sketchup object that makes up this part.
-    # @param parent [Vectorize::PartsInventory] The inventory on which this part appears.
+    # @param parent [Vectorize::PartsList] The list on which this part appears.
     def initialize(entity = nil, parent = nil)
       @entity = entity
       @parent = parent

@@ -13,7 +13,7 @@ module Vectorize
         sketchup_mixins
         mirrored_faces
         part
-        parts_inventory
+        parts_list
     ].each { |name| load "vectorize/#{name}.rb" }
   end
 

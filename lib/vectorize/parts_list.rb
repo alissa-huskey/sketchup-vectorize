@@ -4,7 +4,7 @@ module Vectorize
   # A container class for the list of parts from one or more assemblies
   # (Sketchup::Entity objects) and recursive children.
   #
-  class PartsInventory
+  class PartsList
     include Enumerable
 
     # @return [Array<Assembly>] One or more Assembly objects that may

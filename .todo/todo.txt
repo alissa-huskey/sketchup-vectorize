@@ -1,2 +1,1 @@
-2023-05-10 rename PartsInventory to PartsList
 2023-05-10 PartsInventory#parts: not recrusive @bug
