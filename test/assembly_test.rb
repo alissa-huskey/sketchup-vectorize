@@ -2,26 +2,52 @@ require_relative "../lib/vectorize/mirrored_faces"
 require_relative "test_helper"
 
 class TestAssembly < Minitest::Test
-  def test_group
-    assert Sketchup::Group.new
+  def test_entities_collections
+    # this is really a test of my mock/stub setup
+    #
+    cases = [
+      Case.new(klass: Sketchup::ComponentInstance),
+      Case.new(klass: Sketchup::Group),
+      Case.new(klass: Sketchup::Selection),
+      Case.new(klass: Sketchup::Face),
+    ]
+
+    entities = %i[a b c].map { |x| Stub.new(label: x, usable?: true) }
+
+    cases.each do |params|
+      obj = params.klass.new(*entities)
+
+      assert obj.entities.map.to_a == entities
+      assert obj.entities.each.to_a == entities
+      assert obj.entities.usable == entities
+      assert obj.to_a == entities
+    end
   end
 
   def test_analyze
-    group = Sketchup::Group.new(
-      Sketchup::Group.new,
-      Sketchup::Face.new,
-      Sketchup::Edge.new,
-      Sketchup::ComponentInstance.new,
-      Sketchup::Axes.new,
-    )
+    cases = [
+      Case.new(klass: Sketchup::ComponentInstance),
+      Case.new(klass: Sketchup::Group),
+      Case.new(klass: Sketchup::Selection),
+    ]
 
-    assert_equal 2, group.facets.size, "facets should contain the edge and face"
-    assert_equal 2, group.children.size, "children should contain the group and component"
-    assert_equal 1, group.faces.size, "faces should contain the face"
-    assert_equal 1, group.edges.size, "edges should contain the edge"
-    assert_equal 1, group.groups.size, "groups should contain the group"
-    assert_equal 1, group.components.size, "components should contain the component"
-    assert_equal 1, group.meta.size, "meta should contain the axis"
+    cases.each do |params|
+      obj = params.klass.new(
+        Sketchup::Group.new,
+        Sketchup::ComponentInstance.new,
+        Sketchup::Face.new,
+        Sketchup::Edge.new,
+        Sketchup::Dimension.new,
+      )
+
+      assert_equal 2, obj.facets.size, "facets should contain the edge and face"
+      assert_equal 2, obj.children.size, "children should contain the group and component"
+      assert_equal 1, obj.faces.size, "faces should contain the face"
+      assert_equal 1, obj.edges.size, "edges should contain the edge"
+      assert_equal 1, obj.groups.size, "groups should contain the group"
+      assert_equal 1, obj.components.size, "components should contain the component"
+      assert_equal 1, obj.meta.size, "meta should contain the dimension"
+    end
   end
 
   def test_graphic?
@@ -129,6 +155,7 @@ class TestAssembly < Minitest::Test
       x.expect(:graphic?, true)
     end
 
+    # b.pt
     assert_equal graphics, obj.graphics
   end
 

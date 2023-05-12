@@ -20,6 +20,12 @@ module Vectorize
       def <=>(other)
         object_id <=> other.object_id
       end
+
+      # @return [Boolean] True if this object is visible and not deleted.
+      #
+      def usable?
+        visible? && layer.visible? && !deleted?
+      end
     end
   end
 end

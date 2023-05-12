@@ -6,6 +6,15 @@ module Vectorize
     #
     module Selection
       include Vectorize::Assembly
+
+      def entities
+        self
+      end
+      alias usable entities
+
+      def usable?
+        true
+      end
     end
   end
 end

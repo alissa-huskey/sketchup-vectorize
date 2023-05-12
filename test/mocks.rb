@@ -34,80 +34,163 @@ module MakeUsable
       end
 
       def layer
-        OpenStruct.new(visible?: false)
+        OpenStruct.new(visible?: true)
       end
     end
   end
 end
 
-class Sketchup::DrawingElement
+# Module for mock classes that take an arbitrary number of arguments on
+# instantiation, store them in an array, and then are accessed as an
+# enumerable.
+#
+module Collection
+  def self.included(base)
+    base.class_eval do
+      # Constructor/attrs
+      # -----------------
+      #
+
+      attr_reader :items
+
+      def initialize(*args)
+        self.items = args
+      end
+
+      def items=(items)
+        @items = _array_or_variable(items)
+      end
+
+      # Array/Enumerable methods
+      # ------------------------
+      #
+
+      alias_method :to_a, :items
+
+      def [](key)
+        items[key]
+      end
+
+      def []=(key, value)
+        items[key] = value
+      end
+
+      def each(&block)
+        items.each(&block)
+        self
+      end
+
+      # utils
+      # -----
+      #
+
+      # If there is only one item in args and it is an array, return it.
+      #   Otherwise, return args.
+      #
+      #   For use with methods defined with *args so that they may be called as
+      #   either:
+      #
+      #   method.(a, b, c)
+      #   method([a, b, c])
+      #
+      def _array_or_variable(args)
+        args.first.is_a?(Array) && args.size == 1 ? args.first  : args
+      end
+    end
+  end
+end
+
+# Module for mock classes that contain a list of entities in a
+# Sketchup::Entities object.
+#
+module EntitiesCollection
+  def self.included(base)
+    base.class_eval do
+      include Collection
+
+      attr_reader :entities
+
+      alias_method :usable, :entities
+
+      def initialize(*args)
+        self.items = args
+        self.entities = Sketchup::Entities.new(@items)
+      end
+
+      # Set @entities to a Sketchup::Entities object
+      #
+      def entities=(args)
+        if args.is_a?(Sketchup::Entities)
+          @entities = args
+        else
+          @entities = Sketchup::Entities.new(_array_or_variable(args))
+        end
+      end
+
+      def to_a
+        entities.to_a
+      end
+    end
+  end
 end
 
 class Geom::Point3d
   include Mock
+  include Collection
 
-  def initialize(*xyz)
-    xyz = xyz.first if (xyz.length == 1) && xyz.first.is_a?(Array)
-    @xyz = xyz
-  end
-
-  def to_a
-    @xyz
-  end
+  alias xyz items
 
   def x
-    @xyz[0]
+    xyz[0]
   end
 
   def y
-    @xyz[1]
+    xyz[1]
   end
 
   def z
-    @xyz[2]
+    xyz[2]
   end
 
   private
 
   def _inspect
-    @xyz.join(", ")
+    xyz.join(", ")
   end
 end
 
 class Sketchup::Entities
   include Mock
+  include Collection
 
-  attr_accessor :entities
-  alias to_a entities
-  alias usable entities
-
-  def initialize(*entities)
-    entities = entities.first if entities.first.is_a?(Array) && entities.size == 1
-    @entities = entities
-  end
-
-  def each(&block)
-    @entities.each(&block)
-    self
-  end
+  alias entities items
 end
 
 class Sketchup::Entity
   include Mock
+  prepend MakeUsable
 end
 
 class Sketchup::Face
   include Mock
+  include EntitiesCollection
+  prepend MakeUsable
 
-  attr_accessor :points, :layer, :plane
+  attr_reader :points
+  attr_writer :plane
 
-  def initialize(*entities, points: [])
-    entities = entities.first if entities.first.is_a?(Array) && entities.size == 1
+  def initialize(*args, points: [])
+    self.items = args
+    self.entities = Sketchup::Entities.new(@items)
+    self.points = points
+  end
 
+  def points=(points)
     @points = points.map { |x| x.is_a?(Geom::Point3d) ? x : Geom::Point3d.new(x) }
-    @entities = Sketchup::Entities.new(entities)
-    @layer = Sketchup::Layer.new
-    @plane = rand
+  end
+
+  def plane
+    @plane ||= rand
   end
 
   # used by mirror? as a quick way to tell if two faces are not mirrors
@@ -119,12 +202,14 @@ class Sketchup::Face
   private
 
   def _inspect
-    @points.join(", ")
+    points ? points.join(", ") : ""
   end
 end
 
 class Sketchup::ComponentInstance
   include Mock
+  include Vectorize::Assembly
+  include EntitiesCollection
 
   def definition
     OpenStruct.new(entities: Sketchup::Entities.new)
@@ -139,14 +224,13 @@ class Sketchup::Drawingelement
   include MakeUsable
 end
 
+Sketchup::Group.class_eval { remove_method :entities }
 class Sketchup::Group
   include Mock
+  include EntitiesCollection
+end
 
-  attr_accessor :entities
-
-  def initialize(*entities)
-    entities = entities.first if entities.first.is_a?(Array) && entities.size == 1
-
-    @entities = Sketchup::Entities.new(entities)
-  end
+class Sketchup::Selection
+  include Mock
+  include EntitiesCollection
 end

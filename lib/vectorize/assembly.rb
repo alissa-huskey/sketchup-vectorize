@@ -157,12 +157,6 @@ module Vectorize
 
       nil
     end
-
-    # @return [Boolean] True if this object is visible and not deleted.
-    #
-    def usable?
-      visible? && layer.visible? && !deleted?
-    end
   end
 
   # Return true if object is an Assembly
