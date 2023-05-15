@@ -31,14 +31,11 @@ module Vectorize
     #
     # @return [Array<Part>] List of parts
     def parts
-      parts = []
-      assemblies.each do |assembly|
-        assembly.graphics.each do |graphic|
-          mirrors = graphic.orientations_at_thickness(depth)
-          (parts << Vectorize::Part.new(graphic, self)) if mirrors
+      assemblies.reduce([]) do |parts, assembly|
+        parts + assembly.graphics.filter_map do |g|
+          Vectorize::Part.new(g, self) unless g.orientations_at_thickness(depth).empty?
         end
       end
-      parts
     end
 
     # Iterates over the array of parts.

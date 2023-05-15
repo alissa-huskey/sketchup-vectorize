@@ -138,7 +138,7 @@ class TestAssembly < Minitest::Test
     obj = Sketchup::Group.new(*children)
 
     children.each do |x|
-      x.expect(:graphic?, true)
+      mock_method(x, :graphic?, true)
     end
 
     assert_equal children, obj.graphics
@@ -152,11 +152,47 @@ class TestAssembly < Minitest::Test
     graphics = grandchildren + [b]
 
     graphics.each do |x|
-      x.expect(:graphic?, true)
+      mock_method(x, :graphic?, true)
     end
 
-    # b.pt
     assert_equal graphics, obj.graphics
+  end
+
+  def test_graphics_with_children_recursive_two
+    # generate a dictionary of groups
+    #
+    groups = %w[ main a b a1 a2 b1 b2 ].reduce({}) do |res, label|
+      res[label.to_sym] = Sketchup::Group.new(name: label)
+      res
+    end
+
+    # proc to get a group by key from groups
+    #
+    from_groups = proc { |key| groups[key.to_sym] }
+
+    # define the relationships between groups/selection
+    #
+    group_main = groups[:main]
+    group_main.entities = %i[a b].map(&from_groups)
+
+    group_a = groups[:a]
+    group_a.entities = %i[a1 a2].map(&from_groups)
+
+    group_b = groups[:b]
+    group_b.entities = %i[b1 b2].map(&from_groups)
+
+    selection = Sketchup::Selection.new(group_main)
+
+    # set up expectations
+    #
+    mirrors = Stub.new(distance: 0.25) # MirroredFaces object
+
+    %w[ a1 a2 b1 b2 ].map(&from_groups).each do |group|
+      mock_method(group, :graphic?, true)
+      mock_method(group, :mirrors, [mirrors])
+    end
+
+    assert_equal 4, selection.graphics.size
   end
 
   def test_usable?

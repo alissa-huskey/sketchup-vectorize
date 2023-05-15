@@ -7,14 +7,26 @@ require 'sketchup-api-stubs/sketchup'
 module Mock
   def self.included(base)
     base.class_eval do
+      attr_accessor :name
+
       def inspect
         "#{self.class}(#{_inspect})"
       end
     end
   end
 
+  def _from_keywords(kwargs)
+    kwargs.each do |key, value|
+      send("#{key}=".to_sym, value)
+    end
+  end
+
+  def _keywords_to_inspect
+    []
+  end
+
   def _inspect
-    ""
+    _keywords_to_inspect.map { |key| "#{key}=#{send(key).inspect}" }.join(", ")
   end
 end
 
@@ -53,8 +65,9 @@ module Collection
 
       attr_reader :items
 
-      def initialize(*args)
+      def initialize(*args, **kwargs)
         self.items = args
+        _from_keywords(kwargs)
       end
 
       def items=(items)
@@ -112,9 +125,10 @@ module EntitiesCollection
 
       alias_method :usable, :entities
 
-      def initialize(*args)
+      def initialize(*args, **kwargs)
         self.items = args
         self.entities = Sketchup::Entities.new(@items)
+        _from_keywords(kwargs)
       end
 
       # Set @entities to a Sketchup::Entities object
@@ -179,10 +193,11 @@ class Sketchup::Face
   attr_reader :points
   attr_writer :plane
 
-  def initialize(*args, points: [])
+  def initialize(*args, points: [], **kwargs)
     self.items = args
     self.entities = Sketchup::Entities.new(@items)
     self.points = points
+    _from_keywords(kwargs)
   end
 
   def points=(points)
@@ -228,9 +243,23 @@ Sketchup::Group.class_eval { remove_method :entities }
 class Sketchup::Group
   include Mock
   include EntitiesCollection
+
+  attr_writer :mirrors
+
+  def _keywords_to_inspect
+    [:name]
+  end
 end
 
 class Sketchup::Selection
   include Mock
   include EntitiesCollection
+end
+
+def mock_method(obj, name, value)
+  obj.instance_eval do
+    define_singleton_method name do
+      value
+    end
+  end
 end

@@ -93,17 +93,7 @@ module Vectorize
     def graphics
       return [self] if graphic?
 
-      graphics = []
-
-      children.each do |child|
-        if child.graphic?
-          graphics << child
-        else
-          graphics += child.graphics
-        end
-      end
-
-      graphics
+      children.reduce([]) { |res, child| res + child.graphics }
     end
 
     # Return a list of MirroredFaces objects where the distance between the two
