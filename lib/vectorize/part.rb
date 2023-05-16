@@ -38,7 +38,7 @@ module Vectorize
     # @return [Vectorize::MirroredFaces] The mirrored faces object that represents
     #   the correct orientation of this part.
     def orientation
-      (orientations.size == 1 ? orientations.first : nil)
+      @orientation ||= (orientations.size == 1 ? orientations.first : nil)
     end
 
     def entity_id
@@ -53,7 +53,7 @@ module Vectorize
 
     # Create a new group that contains a copy of this parts face
     #
-    def copy_face
+    def layout_face
       return if face
 
       app = Vectorize.app
@@ -76,8 +76,10 @@ module Vectorize
       # get the size of the Vectorize group
       size = main_group.bounds.height
 
-      # move the new group over
-      group.move_y!(size + 1)
+      # move the new group over so it's not on top of previous faces
+      # NOTE: Be sure to do this last, or the reference to group will be
+      #       deleted for other operations
+      group = group.move_y!(size + 1)
 
       app.commit
 

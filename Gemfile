@@ -21,5 +21,6 @@ group :test, :development do
   gem "pry-doc"
   gem "pry-theme"
   gem "pry-rescue"
-  gem 'rake'
+  gem "rake"
+  gem "awesome_print"
 end

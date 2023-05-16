@@ -258,8 +258,23 @@ end
 
 def mock_method(obj, name, value)
   obj.instance_eval do
-    define_singleton_method name do
+    define_singleton_method name do |*args, **kwargs|      # rubocop:disable Lint/UnusedBlockArgument
       value
     end
   end
+end
+
+# overwrite a constant
+def overwrite_const(name, value)
+  Object.instance_eval { remove_const name }
+  Object.const_set(name, value)
+end
+
+# temporarily overwrite constants passed as kwargs, then revert back to their
+# originals at the end of the block
+def mock_consts(**kwargs)
+  saved = kwargs.map { |k, _| [k, Object.const_get(k) ] }
+  kwargs.each { |k, v| overwrite_const(k, v) }
+  yield
+  saved.each { |k, v| overwrite_const(k, v) }
 end

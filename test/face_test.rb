@@ -151,7 +151,73 @@ class TestFace < Minitest::Test
       axis = a.mirror?(b)
 
       message = (params.expected ? "be mirrored on #{params.expected}" : "not be mirrored")
-      assert_equal params.expected, axis, "#{params.desc} should #{message}"
+      assert_equal params.expected, axis, "#{params.desc.em} should #{message.em}"
     end
+  end
+
+  def test_face_up?
+    cases = [
+      Case.new(same: true, expected: true, desc: "is in the same direction"),
+      Case.new(same: false, expected: false, desc: "is not in the same direction"),
+    ]
+
+    cases.each do |params|
+      face = Sketchup::Face.new
+
+      normal = Stub.new
+      mock_method(normal, :samedirection?, params.same)
+
+      face.stub(:normal, normal) do
+        assert_equal(
+          params.expected,
+          face.face_up?,
+          "When the faces's normal vector #{params.desc.em} as the Z-AXIS, face_up? should return #{params.expected.em}"
+        )
+      end
+    end
+  end
+
+  def test_right_axis
+    x, y = %i[ x y ].map { |axis| Stub.new(axis: axis) }
+
+    mock_consts(X_AXIS: x, Y_AXIS: y) do
+      cases = [
+        Case.new(x: true, y: false, expected: x, desc: "X_AXIS is and Y_AXIS is not"),
+        Case.new(x: false, y: true, expected: y, desc: "X_AXIS is not and Y_AXIS is"),
+      ]
+
+      cases.each do |params|
+        face = Sketchup::Face.new
+
+        normal = Minitest::Mock.new
+        normal.expect(:perpendicular?, params.x, [x]) # X_AXIS
+        normal.expect(:perpendicular?, params.y, [y]) # Y_AXIS
+
+        face.stub(:normal, normal) do
+          assert_equal(
+            params.expected,
+            face.right_axis,
+            "When the #{params.desc.em} at a right angle to the face's normal, " \
+            "right_axis return the #{params.expected.axis.em} axis"
+          )
+        end
+      end
+    end
+  end
+
+  def test_vertical_angle
+    mock_consts(Z_AXIS: Stub.new(axis: :z)) do
+      normal = Minitest::Mock.new
+      normal.expect(:angle_between, Stub.new(radians: 30), [Z_AXIS])
+
+      face = Sketchup::Face.new
+      face.stub(:normal, normal) do
+        assert_equal 30, face.vertical_angle
+      end
+    end
+  end
+
+  def test_flip_down!
+    # normal.angle_between(Z_AXIS).radians
   end
 end

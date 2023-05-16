@@ -15,8 +15,6 @@ module Vectorize
         part
         parts_list
     ].each { |name| load "vectorize/#{name}.rb" }
-
-    @app = nil
   end
 
   def self.app
@@ -40,38 +38,55 @@ module Vectorize
       @model ||= Sketchup.active_model
     end
 
+    # @return [Sketchup::Selection] the current selection
+    #
     def selected
       model.selection
     end
     alias selection selected
 
+    # Find or create the Vectorized group
+    #
+    # @note Do not cache as Sketchup may delete and recreate groups unexpectedly
+    # @return [Sketchup::Group] The Vectorized group
     def group
       group = model.entities.grep(Sketchup::Group).find { |x| x.name == "Vectorized" && !x.deleted? }
       return group if group
 
-      puts "Adding Vectorize group..."
       group = model.entities.add_group
       group.name = "Vectorized"
       group.layer = layer
       group
     end
 
+    # Find or create the Vectorized layer
+    #
+    # @return [Sketchup::Layer] The Vectorized layer
     def layer
       @layer ||= (model.layers.find { |x| x.name == "Vectorized" } || model.layers.add_layer("Vectorized"))
     end
 
+    # Create a PartsList from currently selected entities.
+    #
+    # @param depth [Float] The thickness of sheet material to find parts.
+    # @return [PartsList]
     def list_from_selected(depth)
       PartsList.new(depth, selected)
     end
 
+    # Start a transaction
+    #
+    # @param name [String] Action to be preformed.
     def begin(name)
       model.start_operation(name, disable_ui: true)
     end
 
+    # Abort a transaction
     def abort
       model.abort_operation
     end
 
+    # Commit a transaction
     def commit
       model.commit_operation
     end
@@ -80,6 +95,5 @@ end
 
 unless file_loaded?(File.basename(__FILE__))
   Vectorize.initialize_plugin
-  Vectorize.hello
   file_loaded(File.basename(__FILE__))
 end

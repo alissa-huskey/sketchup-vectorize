@@ -4,6 +4,7 @@ require "minitest/reporters"
 
 require "pry"
 require "sketchup-api-stubs/sketchup"
+require "awesome_print"
 
 require_relative "mocks"
 
@@ -15,10 +16,17 @@ require_relative "../lib/vectorize"
 require_relative "../lib/vectorize/vectorize"
 
 # alias to make faux-paramaratized tests look nicer
-Case = OpenStruct
+class Case < OpenStruct; end
 
 # alias to make arbitrary stubs look nicer
-Stub = OpenStruct
+class Stub < OpenStruct; end
+
+class Object
+  # for emphasizing text in assertion messages
+  def em
+    to_s.cyan
+  end
+end
 
 # breakpoint alias
 # instead of: binding.pry
