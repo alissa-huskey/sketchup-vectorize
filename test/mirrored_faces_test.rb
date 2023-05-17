@@ -40,7 +40,7 @@ class TestMirroredFaces < Minitest::Test
 
   def test_mirrors
     origin = Geom::Point3d.new([0, 0, 0])
-    faces = [
+    a, b = [
       Sketchup::Face.new(points: [
         origin,
         [100, 0,   0],
@@ -56,7 +56,9 @@ class TestMirroredFaces < Minitest::Test
     ]
 
     origin.stub :distance_to_plane, 50 do
-      mirror = Vectorize::MirroredFaces.new(*faces)
+      mirror = Vectorize::MirroredFaces.new(a, b)
+
+      mock_method(a, :decoupled_faces, [b])
 
       assert_equal 50, mirror.distance
       assert_equal :z, mirror.axis

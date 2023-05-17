@@ -143,6 +143,8 @@ class TestFace < Minitest::Test
       a = Sketchup::Face.new(points: params.a)
       b = Sketchup::Face.new(points: params.b)
 
+      mock_method(a, :decoupled_faces, [b])
+
       unless params.planes.nil?
         a.plane = params.planes[0]
         b.plane = params.planes[1]

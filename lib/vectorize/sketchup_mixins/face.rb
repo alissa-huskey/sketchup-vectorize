@@ -47,9 +47,10 @@ module Vectorize
           [axis, distance.round(Vectorize::PRECISION)]
         end
 
-        # if all axises and distances are the same return the axis
-        # otherwise return false
-        (axises.uniq.length == 1) && axises.first.first
+        # if all axises and distances are the same and this face is directly
+        # connected to all faces except other return the axis otherwise return
+        # false
+        (axises.uniq.length == 1) && decoupled_faces == [other] && axises.first.first
       end
 
       # @return [Boolean] True if facing up
@@ -74,7 +75,7 @@ module Vectorize
         # a temporary variable for later
         face = self
 
-        unless angle.zero?
+        unless vertical_angle.zero?
           # create a temporary group that we can rotate
           #
           # TODO: According to the Sketchup docs --
@@ -82,7 +83,7 @@ module Vectorize
           #       known to crash SketchUp before version 8.0. It is preferable
           #       to create an empty group and then add things to its Entities
           #       collection.
-          group = Vectorize.group.entities.add_group(self)
+          group = Sketchup.model.active_entities.entities.add_group(self)
 
           # rotate from the left front bottom corner, on the previously
           # determined axis and at the previously determined angle
@@ -98,10 +99,17 @@ module Vectorize
         face.face_up? ? face : face.reverse!
       end
 
-      # Create a copy of this face
-      #
-      def copy
-        Vectorize.group.entities.add_face(vertices)
+      # @return [Array<Sketchup::Face>] List of faces that share an edge
+      def connected_faces
+        loops.reduce([]) do |faces, loop|
+          faces + loop.edges.reduce([]) { |res, edge| res + edge.faces }
+        end.uniq
+      end
+
+      # @return [Array<Sketchup::Face>] List of faces that are indirectly
+      #   connected but do not share an edge
+      def decoupled_faces
+        all_connected.grep(Sketchup::Face) - connected_faces
       end
     end
   end

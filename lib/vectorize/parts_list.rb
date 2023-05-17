@@ -46,5 +46,21 @@ module Vectorize
       parts.each(&block)
       self
     end
+
+    # A list of parts where the orientation could not automatically be
+    # determined
+    #
+    # @return [Array<Part>] list of invalid parts
+    def invalid
+      parts.select { |x| !x.valid? }
+    end
+
+    # A list of parts where the orientation could not automatically be
+    # determined
+    #
+    # @return [Boolean] True if all parts have an orientation
+    def valid?
+      invalid.empty?
+    end
   end
 end

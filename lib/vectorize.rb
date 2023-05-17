@@ -15,7 +15,7 @@ require "extensions.rb"
 require_relative "vectorize/version"
 
 module Vectorize
-  unless file_loaded?(__FILE__)
+  unless file_loaded?(__FILE__) || $VECTORIZE_UNLOADED   # rubocop:disable Style/GlobalVars
     plugin = SketchupExtension.new(
       "Vectorize",
       File.join("vectorize", "plugin.rb")

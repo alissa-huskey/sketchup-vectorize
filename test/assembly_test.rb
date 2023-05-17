@@ -99,7 +99,7 @@ class TestAssembly < Minitest::Test
 
   def test_mirrors
     origin = Geom::Point3d.new([0,   0,   0])
-    group = Sketchup::Group.new(
+    a, b = [
       Sketchup::Face.new(points: [
         origin,
         [100, 0,   0],
@@ -112,7 +112,10 @@ class TestAssembly < Minitest::Test
         [100, 200, 50],
         [0,   200, 50],
       ]),
-    )
+    ]
+    group = Sketchup::Group.new(a, b)
+
+    mock_method(a, :decoupled_faces, [b])
 
     origin.stub :distance_to_plane, 50 do
       mirror = group.mirrors.first

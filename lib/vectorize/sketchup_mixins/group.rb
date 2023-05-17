@@ -10,15 +10,15 @@ module Vectorize
       def move_relative!(*xyz)
         app = Vectorize.app
 
-        app.begin("Move group: #{name.inspect} relative: #{xyz.inspect}")
+        app.begin("Move group")
 
         start = transformation.origin
         dest = start + xyz
         vector = start.vector_to(dest)
-        transform = Geom::Transformation.translation(vector)
-        transform!(transform)
+        tr = Geom::Transformation.translation(vector)
+        group = transform!(tr)
 
-        app.commit
+        app.commit && group
       end
 
       def move_x!(distance)

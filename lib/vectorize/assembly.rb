@@ -22,7 +22,7 @@ module Vectorize
         attr_reader attr
 
         define_method "#{attr}" do
-          analyze unless instance_variable_defined? "@#{attr}"
+          analyze
           instance_variable_get "@#{attr}"
         end
       end
