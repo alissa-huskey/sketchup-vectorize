@@ -1,0 +1,49 @@
+#!/usr/bin/env ruby -w
+
+require "json"
+
+def error(message)
+  puts "Error: #{message}"
+  exit 1
+end
+
+file = ARGV.first
+error "Error: Please provide exactly 1 filename." unless ARGV.size == 1
+error "Error: No such file." unless File.file? file
+
+File.open(file) do |f|
+  lines = f.read.lines
+  a, b = lines.shift, lines
+
+  data = JSON.parse(a).merge JSON.parse(b.join)
+  # binding.pry
+
+  keys = %w[ captureTime incident_id crashReporterKey ]
+  rows = keys.map { |k| [ k, data[k]] }
+  rows.unshift ["file", file.sub(Dir.home, "~")]
+  rows << ["exception", data["exception"]["type"]]
+
+  width = keys.map { |k| k.size }.max
+  puts
+  rows.each do |key, value|
+    puts "#{key.ljust(width)}: #{value}"
+  end
+
+  puts
+  data["vmRegionInfo"].lines.each { |x| puts "   #{x}"}
+  puts
+
+  symbols = data["threads"].map do |thread|
+    thread["frames"].map {|frame| frame["symbol"] }.select {|symbol| symbol.include? "sketchup" }
+  end
+
+  max_width = 90
+  symbols = symbols.select { |x| !x.empty? }.flatten
+  symbols = symbols.map { |x| x.length > max_width ? "#{x[0, max_width]}..." : x }
+
+  symbols.each do |symbol|
+    puts "  * #{symbol}"
+  end
+
+  puts
+end
