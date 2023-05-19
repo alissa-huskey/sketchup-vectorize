@@ -16,9 +16,11 @@ module Vectorize
         mirrored_faces
         part
         parts_list
+        observers
     ].each { |name| load "vectorize/#{name}.rb" }
 
     Vectorize.console_shortcuts
+    Vectorize.app.log "Plugin loaded."
 
     $VECTORIZE_UNLOADED = false
   end

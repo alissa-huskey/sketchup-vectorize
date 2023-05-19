@@ -62,5 +62,13 @@ module Vectorize
     def valid?
       invalid.empty?
     end
+
+    # Layout faces for all parts
+    #
+    def layout_faces
+      parts.each do |part|
+        part.layout_face
+      end
+    end
   end
 end

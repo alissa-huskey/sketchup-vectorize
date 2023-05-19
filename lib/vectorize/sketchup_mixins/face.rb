@@ -83,7 +83,7 @@ module Vectorize
           #       known to crash SketchUp before version 8.0. It is preferable
           #       to create an empty group and then add things to its Entities
           #       collection.
-          group = Sketchup.model.active_entities.entities.add_group(self)
+          group = Sketchup.active_model.active_entities.add_group(self)
 
           # rotate from the left front bottom corner, on the previously
           # determined axis and at the previously determined angle

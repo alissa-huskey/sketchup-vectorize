@@ -26,6 +26,7 @@ module Vectorize
       @depth ||= parent.depth
     end
 
+    # @return [String] name of this part
     def name
       entity.name.empty? && entity.definition ? entity.definition.name : entity.name
     end
@@ -41,6 +42,7 @@ module Vectorize
       @orientation ||= (orientations.size == 1 ? orientations.first : nil)
     end
 
+    # @return [Integer] entity id
     def entity_id
       entity.entityID
     end
@@ -61,33 +63,45 @@ module Vectorize
       vertices
 
       app = Vectorize.app
-      app.begin("Layout Face")
 
       main_group = app.group
 
-      # create the new group for this face
-      group = main_group.entities.add_group
-      group.name = "#{name} Face"
+      group = app.transaction("Layout Face") do
+        app.log "Laying out face"
 
-      # save the relationship between the entities
-      group.set_attribute("Vectorize", "from_entity_id", entity_id)
-      entity.set_attribute("Vectorize", "to_entity_id", group.entityID)
+        # create the new group for this face
+        group = main_group.entities.add_group
+        group.name = "#{name} Face"
 
-      # create the face from previously computed vertices
-      group.entities.build do |builder|
-        builder.add_face(vertices)
+        app.log "Group created"
+
+        # save the relationship between the entities
+        group.set_attribute("Vectorize", "from_entity_id", entity_id)
+        entity.set_attribute("Vectorize", "to_entity_id", group.entityID)
+
+        app.log "Attributes set"
+
+        # create the face from previously computed vertices
+        group.entities.build do |builder|
+          builder.add_face(vertices)
+        end
+
+        app.log "Face built"
+        group
       end
 
       # get the size of the Vectorize group
       size = main_group.bounds.height
 
       # move the new group over so it's not on top of previous faces
-      # NOTE: Be sure to do this last, or the reference to group will be
-      #       deleted for other operations
+      # NOTE: Be sure to do this last, (or first) or the reference to group
+      #       will be deleted and won't be available for other operations
       group = group.move_y!(size + 1)
 
-      # commit the transactoin and return the group
-      app.commit && group
+      app.log "Group moved: #{group.name}"
+      app.log "Base context? #{app.base_context?}"
+
+      group
     end
 
     # @return [Array[Geom::Point3d] list of points of the correctly positioned face
@@ -96,7 +110,7 @@ module Vectorize
 
       # start a transaction
       app = Vectorize.app
-      app.begin("Calculating vertices")
+      app.transaction("Calculate vertices")
 
       # select the face to copy
       face = orientation.faces.find(&:face_up?) || orientation.a
@@ -107,8 +121,8 @@ module Vectorize
       # store the list of points from the correctly positioned face
       @vertices = clone.vertices.map(&:position)
 
-      # now abort to undo all of the chabnges
-      app.abort
+      # now abort the transaction to undo all of the changes
+      app.cancel
 
       # return the list of calculated vertices
       @vertices
