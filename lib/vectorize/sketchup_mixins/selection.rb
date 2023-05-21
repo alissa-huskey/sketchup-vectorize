@@ -8,7 +8,7 @@ module Vectorize
       include Vectorize::Assembly
 
       def entities
-        self
+        entries
       end
       alias usable entities
 

@@ -3,6 +3,7 @@
 # rubocop:disable Style/RedundantFileExtensionInRequire
 
 require "logger"
+require "pathname"
 require "sketchup.rb"
 
 module Vectorize
@@ -64,7 +65,7 @@ module Vectorize
     # @param depth [Float] The thickness of sheet material to find parts.
     # @return [PartsList]
     def list_from_selected(depth)
-      PartsList.new(depth, *selected.entities.to_a)
+      PartsList.new(depth, *selected.to_a)
     end
 
     # Start a transaction
@@ -75,6 +76,7 @@ module Vectorize
         error "Transaction in progress: #{@transaction.inspect} when trying to start #{title.inspect}."
         return
       end
+
       @transaction = title
       log "Starting transaction: #{title}"
       model.start_operation(title, disable_ui: true)

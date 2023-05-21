@@ -31,11 +31,15 @@ module Vectorize
     #
     # @return [Array<Part>] List of parts
     def parts
-      assemblies.reduce([]) do |parts, assembly|
-        parts + assembly.graphics.filter_map do |g|
+      return @parts if @parts
+
+      @parts = assemblies.flat_map do |assembly|
+        assembly.graphics.filter_map do |g|
           Vectorize::Part.new(g, self) unless g.orientations_at_thickness(depth).empty?
         end
       end
+
+      @parts.sort_by { |x| x.name }
     end
 
     # Iterates over the array of parts.

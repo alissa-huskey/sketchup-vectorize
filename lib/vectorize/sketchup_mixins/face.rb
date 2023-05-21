@@ -68,22 +68,23 @@ module Vectorize
         normal.angle_between(Z_AXIS).radians
       end
 
-      # rotate so that it is face up
+      # rotate and reverse face if neccessary so that it is face up
       #
-      # @return [Sketchup::Face] self or the transformed Face object
-      def flip_up!
+      # @return [Array<Sketchup::Point3d] List of points for a correctly
+      #   oriented face.
+      def flip_up
         # a temporary variable for later
         face = self
 
+        # entities to be deleted at the end of the function
+        entities = []
+
         unless vertical_angle.zero?
-          # create a temporary group that we can rotate
-          #
-          # TODO: According to the Sketchup docs --
-          #       Calling add_group with entities in its parameters has been
-          #       known to crash SketchUp before version 8.0. It is preferable
-          #       to create an empty group and then add things to its Entities
-          #       collection.
-          group = Sketchup.active_model.active_entities.add_group(self)
+          # create a temporary group to rotate
+          group = Sketchup.active_model.active_entities.add_group
+
+          # add the existing face
+          group.entities.add_face(*vertices.map(&:position))
 
           # rotate from the left front bottom corner, on the previously
           # determined axis and at the previously determined angle
@@ -92,11 +93,25 @@ module Vectorize
 
           # explode the group so that the face is oriented to the axises in the
           # outer scope
-          face = group.explode.grep(Sketchup::Face).first
+          entities = group.explode
+
+          # get the face
+          face = entities.grep(Sketchup::Face).first
         end
 
         # if it's still not face down, reverse the faces
-        face.face_up? ? face : face.reverse!
+        #
+        # TODO: this might reverse the existing face
+        face = face.face_up? ? face : face.reverse!
+
+        # store the points
+        points = face.vertices.map(&:position)
+
+        # delete the temporary entities
+        entities.map { |e| e.erase! if e.respond_to?(:erase!) && !e.deleted? }
+
+        # return the points
+        points
       end
 
       # @return [Array<Sketchup::Face>] List of faces that share an edge

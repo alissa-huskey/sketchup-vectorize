@@ -7,6 +7,7 @@ require "sketchup.rb"
 
 module Vectorize
   def self.initialize_plugin
+    print "Initializing Vectorize Plugin... "
     %w[
         vectorize
         app
@@ -23,6 +24,7 @@ module Vectorize
     Vectorize.app.log "Plugin loaded."
 
     $VECTORIZE_UNLOADED = false
+    puts "done."
   end
 
   def self.app
@@ -32,9 +34,22 @@ module Vectorize
   # Unload the plugin
   #
   def self.unload!
+    # delete the Vectorize module
     Object.class_eval { remove_const :Vectorize }
-    $LOADED_FEATURES.reject! { |x| x.include? "vectorize" }
+
+    # unrequire all vectorize files
+    $LOADED_FEATURES.reject! { |x| x.include?("vectorize") }
+
+    # flag for reloading
     $VECTORIZE_UNLOADED = true
+  end
+
+  # Reload the plugin
+  #
+  def self.reload!
+    Vectorize.unload!
+    require 'vectorize/plugin'
+    Vectorize.initialize_plugin
   end
 
   def self.hello

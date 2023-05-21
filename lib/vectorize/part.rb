@@ -44,12 +44,12 @@ module Vectorize
 
     # @return [Integer] entity id
     def entity_id
-      entity.entityID
+      entity.persistent_id
     end
 
     # Return the group containing the copied face for this part
     #
-    def face
+    def face_copy
       Vectorize.app.group.entities.find { |x| x.get_attribute("Vectorize", "from_entity_id") == entity_id }
     end
 
@@ -57,36 +57,31 @@ module Vectorize
     #
     # @return [Sketchup::Group] A group containing the face copy.
     def layout_face
-      return if face
-
-      # cache the vertices first to avoid context problems
-      vertices
+      return if face_copy
 
       app = Vectorize.app
 
       main_group = app.group
 
       group = app.transaction("Layout Face") do
-        app.log "Laying out face"
-
         # create the new group for this face
         group = main_group.entities.add_group
         group.name = "#{name} Face"
 
-        app.log "Group created"
+        app.log "[layout face] Group created"
 
         # save the relationship between the entities
         group.set_attribute("Vectorize", "from_entity_id", entity_id)
-        entity.set_attribute("Vectorize", "to_entity_id", group.entityID)
+        entity.set_attribute("Vectorize", "to_entity_id", group.persistent_id)
 
-        app.log "Attributes set"
+        app.log "[layout face] Attributes set"
 
-        # create the face from previously computed vertices
+        # create the face
         group.entities.build do |builder|
-          builder.add_face(vertices)
+          builder.add_face(*face.flip_up)
         end
 
-        app.log "Face built"
+        app.log "[layout face] Face built"
         group
       end
 
@@ -104,28 +99,14 @@ module Vectorize
       group
     end
 
-    # @return [Array[Geom::Point3d] list of points of the correctly positioned face
-    def vertices
-      return @vertices if @vertices
+    # @return [Sketchup::Face] The face to copy
+    def face
+      unless orientation
+        Vectorize.app.error "Orientation nil (entity: ##{entity_id} #{name.inspect})"
+        return
+      end
 
-      # start a transaction
-      app = Vectorize.app
-      app.transaction("Calculate vertices")
-
-      # select the face to copy
-      face = orientation.faces.find(&:face_up?) || orientation.a
-
-      # get a version that is face up
-      clone = face.flip_up!
-
-      # store the list of points from the correctly positioned face
-      @vertices = clone.vertices.map(&:position)
-
-      # now abort the transaction to undo all of the changes
-      app.cancel
-
-      # return the list of calculated vertices
-      @vertices
+      orientation.faces.find(&:face_up?) || orientation.a
     end
 
     # If the orientation was able to be determined

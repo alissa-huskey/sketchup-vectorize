@@ -46,7 +46,12 @@ end
 
 namespace :sketchup do
   task :_open do
-    sh("open", "-b", "com.sketchup.SketchUp.2023", @sketchup_file)
+    sh(
+      "open",
+      "-b", "com.sketchup.SketchUp.2023",
+      # "--args", "-rdebug", "ide port=7354",
+      Pathname.new(@sketchup_file).expand_path.to_s
+    )
     @sketchup_file = nil
   end
 
