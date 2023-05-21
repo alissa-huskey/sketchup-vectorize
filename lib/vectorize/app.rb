@@ -8,6 +8,8 @@ require "sketchup.rb"
 
 module Vectorize
   class App
+    attr_accessor :depth
+
     # @return [Sketchup::Model] The active Sketchup model
     #
     def model
@@ -165,6 +167,34 @@ module Vectorize
     #
     def close_context
       model.close_active until base_context?
+    end
+
+    def add_menu
+      UI.add_context_menu_handler do |context_menu|
+        context_menu.add_item("Layout Faces") {
+          if selected.empty?
+            UI.messagebox "Please select something."
+            return
+          end
+          answers = dialog
+          @depth = answers.first
+
+          begin
+            @depth = Float(depth)
+          rescue ArgumentError
+            UI.messagebox "Please enter a valid decimal number."
+            dialog
+            return
+          end
+
+          list = list_from_selected(@depth)
+          list.layout_faces
+        }
+      end
+    end
+
+    def dialog
+      UI.inputbox(["Thickness"], [@depth], "Layout Faces")
     end
   end
 end

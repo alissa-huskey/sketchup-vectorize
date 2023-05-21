@@ -99,11 +99,6 @@ module Vectorize
           face = entities.grep(Sketchup::Face).first
         end
 
-        # if it's still not face down, reverse the faces
-        #
-        # TODO: this might reverse the existing face
-        face = face.face_up? ? face : face.reverse!
-
         # store the points
         points = face.vertices.map(&:position)
 

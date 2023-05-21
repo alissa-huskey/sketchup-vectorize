@@ -21,6 +21,7 @@ module Vectorize
     ].each { |name| load "vectorize/#{name}.rb" }
 
     Vectorize.console_shortcuts
+    Vectorize.app.add_menu
     Vectorize.app.log "Plugin loaded."
 
     $VECTORIZE_UNLOADED = false

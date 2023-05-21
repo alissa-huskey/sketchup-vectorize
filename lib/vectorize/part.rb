@@ -28,7 +28,7 @@ module Vectorize
 
     # @return [String] name of this part
     def name
-      entity.name.empty? && entity.definition ? entity.definition.name : entity.name
+      (!entity.name || entity.name.empty?) && entity.definition ? entity.definition.name : entity.name
     end
 
     # @return [Array<Vectorize::MirroredFaces>] A list of mirrored faces at `depth` thickness.
@@ -68,20 +68,22 @@ module Vectorize
         group = main_group.entities.add_group
         group.name = "#{name} Face"
 
-        app.log "[layout face] Group created"
-
         # save the relationship between the entities
         group.set_attribute("Vectorize", "from_entity_id", entity_id)
         entity.set_attribute("Vectorize", "to_entity_id", group.persistent_id)
-
-        app.log "[layout face] Attributes set"
 
         # create the face
         group.entities.build do |builder|
           builder.add_face(*face.flip_up)
         end
 
-        app.log "[layout face] Face built"
+        # get the face that was just created
+        face = group.faces.first
+
+        # reverse it if needed
+        face.reverse! unless face.face_up?
+
+        # return the new group from the transaction block
         group
       end
 
@@ -91,12 +93,7 @@ module Vectorize
       # move the new group over so it's not on top of previous faces
       # NOTE: Be sure to do this last, (or first) or the reference to group
       #       will be deleted and won't be available for other operations
-      group = group.move_y!(size + 1)
-
-      app.log "Group moved: #{group.name}"
-      app.log "Base context? #{app.base_context?}"
-
-      group
+      group.move_y!(size + 1)
     end
 
     # @return [Sketchup::Face] The face to copy
